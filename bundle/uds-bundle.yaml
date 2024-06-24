@@ -1,0 +1,15 @@
+kind: UDSBundle
+metadata:
+  name: sigstore-test
+  description: A UDS bundle for deploying Sigstore and on a development cluster
+  # x-release-please-start-version
+  version: 0.6.50-uds.0
+  # x-release-please-end
+
+packages:
+  - name: sigstore
+    path: ../
+    # x-release-please-start-version
+    ref: 0.6.50-uds.0
+    # x-release-please-end
+    overrides:

@@ -1,0 +1,114 @@
+fulcio:
+  server:
+    image:
+      registry: gcr.io
+      repository: projectsigstore/fulcio
+      version: v1.4.5
+  createcerts:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/createcerts
+      version: v0.6.17
+
+ctlog:
+  server:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/ct_server
+      version: v0.6.17
+
+  createtree:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/createtree
+      version: v0.6.17
+
+  createctconfig:
+    initContainerImage:
+      curl:
+        registry: docker.io
+        repository: curlimages/curl
+        version: "8.5.0"
+
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/createctconfig
+      version: v0.6.17
+
+rekor:
+  initContainerImage:
+    curl:
+      registry: docker.io
+      repository: curlimages/curl
+      version: "8.5.0"
+  
+  redis:
+    image:
+      registry: docker.io
+      repository: redis
+      version: 6.2.14-alpine3.19
+  
+  server:
+    image:
+      registry: gcr.io
+      repository: projectsigstore/rekor-server
+      version: v1.3.6
+
+  createtree:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/createtree
+      version: v0.6.17
+
+trillian:
+  initContainerImage:
+    curl:
+      registry: docker.io
+      repository: curlimages/curl
+      version: "8.5.0"
+    netcat:
+      registry: cgr.dev
+      repository: chainguard/netcat
+      version: latest
+
+  mysql:
+    image:
+      registry: gcr.io
+      repository: trillian-opensource-ci/db_server
+      version: v1.5.3
+
+  logServer:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/trillian_log_server
+      version: v0.6.17
+
+  logSigner:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/trillian_log_signer
+      version: v0.6.17
+
+  createdb:
+    image:
+      registry: ghcr.io
+      repository: sigstore/scaffolding/createdb
+      version: v0.6.17
+
+tuf:
+  deployment:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/server
+    version: v0.6.17
+
+tsa:
+  server:
+    image:
+      registry: ghcr.io
+      repository: sigstore/timestamp-server
+      version: v1.2.1
+
+copySecretJob:
+  registry: docker.io
+  repository: alpine/k8s
+  version: "1.29.4"

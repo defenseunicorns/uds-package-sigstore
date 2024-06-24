@@ -1,0 +1,47 @@
+{{- if .Values.ctlog.enabled }}
+apiVersion: uds.dev/v1alpha1
+kind: Package
+metadata:
+  name: ctlog
+  namespace: {{ .Values.ctlog.namespace.name }}
+spec:
+  network:
+    allow:
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+
+      # allow ctlog jobs to pull information from k8s
+      - direction: Egress
+        remoteGenerated: KubeAPI
+
+      # allow ctlog to talk to the trillian log server
+      - direction: Egress
+        remoteNamespace: trillian-system
+        remoteSelector:
+          app.kubernetes.io/component: trillian-logserver
+      
+      # allow ctlog to talk to the fulcio log server
+      - direction: Egress
+        remoteNamespace: fulcio-system
+        remoteSelector:
+          app.kubernetes.io/name: fulcio
+        port: 5555
+
+      # Custom rules to allow clients to connect
+    {{- range .Values.ctlog.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+    {{- end }}
+{{- end }}

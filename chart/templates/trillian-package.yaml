@@ -1,0 +1,42 @@
+{{- if .Values.trillian.enabled }}
+apiVersion: uds.dev/v1alpha1
+kind: Package
+metadata:
+  name: trillian
+  namespace: {{ .Values.trillian.namespace.name }}
+spec:
+  network:
+    allow:
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+
+      # allow rekor to talk to the trillian log server
+      - direction: Ingress
+        remoteNamespace: rekor-system
+        selector:
+          app.kubernetes.io/component: trillian-logserver
+
+      # allow ctlog to talk to the trillian log server
+      - direction: Ingress
+        remoteNamespace: ctlog-system
+        selector:
+          app.kubernetes.io/component: trillian-logserver
+
+      # Custom rules to allow clients to connect
+    {{- range .Values.trillian.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+    {{- end }}
+{{- end }}

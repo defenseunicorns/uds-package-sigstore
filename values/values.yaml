@@ -1,0 +1,86 @@
+fulcio:
+  server:
+    ingress:
+      http:
+        enabled: false
+    service:
+      ports:
+      - name: http
+        port: 5555
+        protocol: TCP
+        targetPort: 5555
+      - name: grpc
+        port: 5554
+        protocol: TCP
+        targetPort: 5554
+      - name: tcp-2112
+        port: 2112
+        protocol: TCP
+        targetPort: 2112
+  config:
+    contents:
+      OIDCIssuers:
+        https://sso.###ZARF_VAR_DOMAIN###/realms/uds:
+          IssuerURL: https://sso.###ZARF_VAR_DOMAIN###/realms/uds
+          ClientID: uds-swf-sigstore
+          Type: email
+
+ctlog:
+  createctconfig:
+    fulcioURL: http://fulcio-server.fulcio-system.svc:5555
+
+rekor:
+  server:
+    ingress:
+      enabled: false
+    service:
+      ports:
+      - name: tcp-3000
+        port: 3000
+        protocol: TCP
+        targetPort: 3000
+      - name: tcp-2112
+        port: 2112
+        protocol: TCP
+        targetPort: 2112
+
+trillian:
+  mysql:
+    service:
+      ports:
+        - name: tcp-3306
+          port: 3306
+          protocol: TCP
+          targetPort: 3306
+  # the trillian mysql image is already configured with the DB
+  # this job does not wait for mysql to come up so will just enter an error state
+  createdb:
+    enabled: false
+
+tuf:
+  enabled: true
+  ingress:
+    create: false
+  service:
+    port: 8080
+
+tsa:
+  enabled: true
+  server:
+    svcPort: 5555
+    args:
+      # TODO (@WSTARR): TEMPORARY TESTING ONLY
+      signer: memory
+    service:
+      ports:
+        - name: http
+          port: 5555
+          protocol: TCP
+          targetPort: 5555
+        - name: metrics
+          port: 2112
+          protocol: TCP
+          targetPort: 2112
+
+copySecretJob:
+  enabled: true

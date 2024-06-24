@@ -1,0 +1,99 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-sigstore-common
+  description: "UDS Sigstore Common"
+  url: https://github.com/sigstore/helm-charts
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: sigstore
+    required: true
+    charts:
+      - name: uds-sigstore-config
+        namespace: sigstore
+        version: 0.1.0
+        localPath: ../chart
+      - name: sigstore
+        version: 0.6.50
+        namespace: sigstore
+        url: oci://ghcr.io/sigstore/helm-charts/scaffold
+        valuesFiles:
+          - ../values/values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate Sigstore Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: sigstore
+                namespace: sigstore
+                condition: "'{.status.phase}'=Ready"
+          - description: Fulcio to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/name=fulcio
+                namespace: fulcio-system
+                condition: Available
+          - description: Rekor to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=server
+                namespace: rekor-system
+                condition: Available
+          - description: Rekor Redis to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=redis
+                namespace: rekor-system
+                condition: Available
+          - description: Trillian Log Server to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=trillian-logserver
+                namespace: trillian-system
+                condition: Available
+          - description: Trillian Log Signer to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=trillian-logsigner
+                namespace: trillian-system
+                condition: Available
+          - description: Trillian DB to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=mysql
+                namespace: trillian-system
+                condition: Available
+          - description: TUF to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=tuf
+                namespace: tuf-system
+                condition: Available
+          - description: TSA to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=tuf
+                namespace: tsa-system
+                condition: Available
