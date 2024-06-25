@@ -41,13 +41,13 @@ rekor:
       registry: docker.io
       repository: curlimages/curl
       version: "8.5.0"
-  
+
   redis:
     image:
       registry: docker.io
       repository: redis
       version: 6.2.14-alpine3.19
-  
+
   server:
     image:
       registry: gcr.io
