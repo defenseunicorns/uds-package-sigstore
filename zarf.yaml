@@ -15,6 +15,9 @@ components:
     import:
       path: common
     charts:
+      - name: uds-sigstore-config
+        valuesFiles:
+          - ./values/upstream-values-config.yaml
       - name: sigstore
         valuesFiles:
           - ./values/upstream-values.yaml

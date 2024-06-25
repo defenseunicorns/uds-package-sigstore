@@ -29,6 +29,12 @@ spec:
         remoteSelector:
           app.kubernetes.io/component: trillian-logserver
 
+      # allow tuf to talk to the rekor server
+      - direction: Ingress
+        remoteNamespace: tuf-system
+        selector:
+          app.kubernetes.io/name: rekor
+
       # Custom rules to allow clients to connect
     {{- range .Values.rekor.custom }}
       - direction: {{ .direction }}

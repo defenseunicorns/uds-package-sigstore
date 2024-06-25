@@ -1,6 +1,7 @@
-# this is needed because of an initContainer that starts in rekor that tries to hit trillian...
+# TODO (@WSTARR): this is needed because of an initContainer that starts in rekor that tries to hit trillian...
 # https://github.com/sigstore/helm-charts/blob/1164e28ea7da2ae14381c1cdee9e39e303115e92/charts/rekor/templates/server/deployment.yaml#L41
 {{- if .Capabilities.APIVersions.Has "security.istio.io/v1beta1" }}
+{{- if .Values.trillian.enabled }}
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -15,4 +16,5 @@ spec:
   portLevelMtls:
     "8090":
       mode: PERMISSIVE
+{{- end }}
 {{- end }}

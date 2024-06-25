@@ -29,6 +29,12 @@ spec:
         remoteSelector:
           app.kubernetes.io/name: tsa
 
+      # allow tuf to talk to the rekor server
+      - direction: Egress
+        remoteNamespace: rekor-system
+        remoteSelector:
+          app.kubernetes.io/name: rekor
+
       # Custom rules to allow clients to connect
     {{- range .Values.tuf.custom }}
       - direction: {{ .direction }}

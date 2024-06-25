@@ -107,8 +107,3 @@ tsa:
       registry: ghcr.io
       repository: sigstore/timestamp-server
       version: v1.2.1
-
-copySecretJob:
-  registry: docker.io
-  repository: alpine/k8s
-  version: "1.29.4"
