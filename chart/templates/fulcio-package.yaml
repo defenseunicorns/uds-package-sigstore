@@ -9,7 +9,7 @@ spec:
     - name: Sigstore Login
       clientId: uds-swf-sigstore
       redirectUris:
-        - "https://sso.uds.dev"
+        - "http://localhost:0/auth/callback"
   network:
     expose:
       - service: fulcio-server
