@@ -24,7 +24,7 @@ fulcio:
           IssuerURL: https://sso.###ZARF_VAR_DOMAIN###/realms/uds
           ClientID: sigstore
           Type: email
-        https://gitlab.###ZARF_VAR_DOMAIN###: 
+        https://gitlab.###ZARF_VAR_DOMAIN###:
           IssuerURL: https://gitlab.###ZARF_VAR_DOMAIN###
           ClientID: sigstore
           Type: gitlab-pipeline
