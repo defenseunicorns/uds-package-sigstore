@@ -44,7 +44,7 @@ spec:
         selector:
           app.kubernetes.io/name: fulcio
 
-      # Allow access to other UDS services (i.e. sso.<domain>) from fulcio
+      # Allow access to other UDS services (i.e. sso.<domain>, gitlab.<domain>) from fulcio
       - direction: Egress
         remoteNamespace: istio-tenant-gateway
         remoteSelector:
