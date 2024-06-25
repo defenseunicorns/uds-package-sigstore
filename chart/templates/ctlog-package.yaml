@@ -28,6 +28,12 @@ spec:
         remoteSelector:
           app.kubernetes.io/name: fulcio
         port: 5555
+      
+      # allow fulcio to talk to ctlog
+      - direction: Ingress
+        remoteNamespace: fulcio-system
+        remoteselector:
+          app.kubernetes.io/name: fulcio
 
       # Custom rules to allow clients to connect
     {{- range .Values.ctlog.custom }}

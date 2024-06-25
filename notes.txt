@@ -1,0 +1,3 @@
+`localhost` needs to be added to the Trusted Hosts under Client Registration
+cosign needs the client secret right now - `kubectl get secret -n fulcio-system sso-client-sigstore -o jsonpath={.data.secret} | base64 -d`
+pepr doesn't support localhost:* as a valid redirect URI

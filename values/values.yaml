@@ -22,12 +22,23 @@ fulcio:
       OIDCIssuers:
         https://sso.###ZARF_VAR_DOMAIN###/realms/uds:
           IssuerURL: https://sso.###ZARF_VAR_DOMAIN###/realms/uds
-          ClientID: uds-swf-sigstore
+          ClientID: sigstore
           Type: email
 
 ctlog:
   createctconfig:
     fulcioURL: http://fulcio-server.fulcio-system.svc:5555
+  service:
+    type: ClusterIP
+    ports:
+      - name: tcp-6962
+        port: 80
+        protocol: TCP
+        targetPort: 6962
+      - name: tcp-6963
+        port: 6963
+        protocol: TCP
+        targetPort: 6963
 
 rekor:
   server:

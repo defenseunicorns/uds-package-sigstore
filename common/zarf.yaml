@@ -134,6 +134,6 @@ components:
             wait:
               cluster:
                 kind: Deployment
-                name: app.kubernetes.io/component=tuf
+                name: app.kubernetes.io/name=tsa
                 namespace: tsa-system
                 condition: Available

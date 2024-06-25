@@ -7,9 +7,10 @@ metadata:
 spec:
   sso:
     - name: Sigstore Login
-      clientId: uds-swf-sigstore
+      clientId: sigstore
       redirectUris:
-        - "http://localhost:0/auth/callback"
+        # - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
+        - "http://pepr.cannot.do.localhost.uds.dev/auth"
   network:
     expose:
       - service: fulcio-server
@@ -28,12 +29,28 @@ spec:
       - direction: Egress
         remoteGenerated: KubeAPI
       
-      # allow ctlog to talk to the fulcio log server
+      # allow ctlog to talk to the fulcio server
       - direction: Ingress
         remoteNamespace: ctlog-system
         selector:
           app.kubernetes.io/name: fulcio
         port: 5555
+
+      # allow fulcio to talk to ctlog
+      - direction: Egress
+        remoteNamespace: ctlog-system
+        selector:
+          app.kubernetes.io/name: fulcio
+
+      # Allow access to other UDS services (i.e. sso.<domain>) from fulcio
+      - direction: Egress
+        remoteNamespace: istio-tenant-gateway
+        remoteSelector:
+          app: tenant-ingressgateway
+        selector:
+          app.kubernetes.io/name: fulcio
+        port: 443
+        description: "UDS Tenant Gateway Services"
 
       # Custom rules to allow clients to connect
     {{- range .Values.fulcio.custom }}
