@@ -5,14 +5,6 @@ metadata:
   name: fulcio
   namespace: {{ .Values.fulcio.namespace.name }}
 spec:
-  sso:
-    - name: Sigstore Login
-      clientId: sigstore
-      redirectUris:
-        # - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
-        - "http://pepr.cannot.do.localhost.uds.dev/auth"
-      secret: "sigstore"
-      serviceAccountsEnabled: true
   network:
     expose:
       - service: fulcio-server
