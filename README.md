@@ -1,7 +1,13 @@
-# uds-package-sigstore
+# 🏭 UDS Postgres Operator Package
+
+[![Latest Release](https://img.shields.io/github/v/release/defenseunicorns/uds-package-postgres-operator)](https://github.com/defenseunicorns/uds-package-postgres-operator/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-postgres-operator/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-postgres-operator/actions/workflows/tag-and-release.yaml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-postgres-operator/badge)](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-postgres-operator)
 
 > [!WARNING]  
-> `uds-package-sigstore` is in early alpha and is not ready for general consumption.
+> `uds-package-sigstore` is in early alpha and is not ready for general consumption.  It is currently supported as a way to sign `in-toto` attestations within GitLab runner.
+
+This package is designed for use as part of a [UDS Software Factory](https://github.com/defenseunicorns/uds-software-factory) bundle deployed on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
 ## Prerequisites
 
