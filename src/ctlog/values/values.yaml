@@ -18,3 +18,7 @@ namespace:
   create: true
 
 forceNamespace: ctlog-system
+
+trillian:
+  logServer:
+    name: trillian-log-server
