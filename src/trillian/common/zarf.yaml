@@ -46,7 +46,7 @@ components:
             wait:
               cluster:
                 kind: Deployment
-                name: app.kubernetes.io/component=logserver
+                name: app.kubernetes.io/component=log-server
                 namespace: trillian-system
                 condition: Available
           - description: Trillian Log Signer to be Healthy
@@ -54,6 +54,6 @@ components:
             wait:
               cluster:
                 kind: Deployment
-                name: app.kubernetes.io/component=logsigner
+                name: app.kubernetes.io/component=log-signer
                 namespace: trillian-system
                 condition: Available
