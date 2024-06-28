@@ -1,10 +1,10 @@
 includes:
-  - ctlog: ./src/ctlog/tasks.yaml
-  - fulcio: ./src/fulcio/tasks.yaml
-  - rekor: ./src/rekor/tasks.yaml
-  - trillian: ./src/trillian/tasks.yaml
-  - tsa: ./src/tsa/tasks.yaml
-  - tuf: ./src/tuf/tasks.yaml
+  - ctlog: ../src/ctlog/tasks.yaml
+  - fulcio: ../src/fulcio/tasks.yaml
+  - rekor: ../src/rekor/tasks.yaml
+  - trillian: ../src/trillian/tasks.yaml
+  - tsa: ../src/tsa/tasks.yaml
+  - tuf: ../src/tuf/tasks.yaml
 
 tasks:
   - name: all
