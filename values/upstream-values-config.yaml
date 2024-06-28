@@ -1,4 +1,0 @@
-copySecretJob:
-  registry: docker.io
-  repository: alpine/k8s
-  version: "1.29.4"
