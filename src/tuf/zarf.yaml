@@ -1,8 +1,8 @@
 kind: ZarfPackageConfig
 metadata:
   name: tuf
-  description: "A deployment of TUF to provide a framework for securing software update systems"
-  url: https://github.com/sigstore/helm-charts/tree/main/charts/tuf
+  description: "A bring-your-own TUF trust root"
+  url: https://theupdateframework.io/
 
 components:
   - name: tuf

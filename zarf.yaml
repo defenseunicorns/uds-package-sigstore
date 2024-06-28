@@ -1,7 +1,7 @@
 kind: ZarfPackageConfig
 metadata:
   name: sigstore
-  description: "A deployment of the primary Sigstore components"
+  description: "A deployment of the primary components in the Sigstore stack"
   url: https://github.com/sigstore/helm-charts
   # x-release-please-start-version
   version: "0.1.0"

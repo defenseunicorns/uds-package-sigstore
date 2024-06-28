@@ -1,8 +1,8 @@
 kind: ZarfPackageConfig
 metadata:
   name: ctlog
-  description: "A deployment of Certificate Transparency Log to track certificates issued by Fulcio"
-  url: https://github.com/sigstore/helm-charts/tree/main/charts/ctlog
+  description: "A Certificate Transparency Log to track certificates issued by Fulcio"
+  url: https://github.com/sigstore/fulcio/blob/main/docs/ctlog.md
 
 components:
   - name: ctlog

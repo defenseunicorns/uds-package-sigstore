@@ -1,8 +1,8 @@
 kind: ZarfPackageConfig
 metadata:
   name: trillian
-  description: "A deployment of Trillian to provide Rekor and CTLog log storage"
-  url: https://github.com/sigstore/helm-charts
+  description: "A verifiable Merkle tree-based log data store"
+  url: https://github.com/google/trillian
 
 components:
   - name: trillian

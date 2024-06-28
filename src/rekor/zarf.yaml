@@ -1,7 +1,7 @@
 kind: ZarfPackageConfig
 metadata:
   name: rekor
-  description: "A deployment of Rekor to provide a signature transparency log"
+  description: "An artifact signature and attestation transparency log"
   url: https://github.com/sigstore/helm-charts/tree/main/charts/rekor
 
 components:

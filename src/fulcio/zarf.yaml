@@ -1,7 +1,7 @@
 kind: ZarfPackageConfig
 metadata:
   name: fulcio
-  description: "A deployment of Fulcio to provide Web PKI within SWF"
+  description: "A certificate authority that issues code-signing certificates bound to an OIDC identity"
   url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
 
 components:

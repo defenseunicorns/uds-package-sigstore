@@ -1,8 +1,8 @@
 kind: ZarfPackageConfig
 metadata:
   name: tsa
-  description: "A deployment of a Timestamp Authority"
-  url: https://github.com/sigstore/helm-charts/tree/main/charts/tsa
+  description: "A Timestamp Authority to provide trusted timestamping"
+  url: https://github.com/sigstore/timestamp-authority
 
 components:
   - name: tsa
