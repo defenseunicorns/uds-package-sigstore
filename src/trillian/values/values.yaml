@@ -17,9 +17,3 @@ namespace:
   create: true
 
 forceNamespace: trillian-system
-
-logServer:
-  name: trillian-logserver
-
-logSigner:
-  name: trillian-logsigner
