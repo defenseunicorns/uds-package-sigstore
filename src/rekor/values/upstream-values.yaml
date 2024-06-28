@@ -1,0 +1,23 @@
+initContainerImage:
+  curl:
+    registry: docker.io
+    repository: curlimages/curl
+    version: "8.5.0"
+
+redis:
+  image:
+    registry: docker.io
+    repository: redis
+    version: 6.2.14-alpine3.19
+
+server:
+  image:
+    registry: gcr.io
+    repository: projectsigstore/rekor-server
+    version: v1.3.6
+
+createtree:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/createtree
+    version: v0.6.17

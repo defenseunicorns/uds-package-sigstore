@@ -1,0 +1,25 @@
+mysql:
+  service:
+    ports:
+      - name: tcp-3306
+        port: 3306
+        protocol: TCP
+        targetPort: 3306
+
+# the trillian mysql image is already configured with the DB
+# this job does not wait for mysql to come up so will just enter an error state
+# TODO: (@WSTARR) - if we support external in-cluster DBs we should reenable this
+createdb:
+  enabled: false
+
+namespace:
+  name: trillian-system
+  create: true
+
+forceNamespace: trillian-system
+
+logServer:
+  name: trillian-logserver
+
+logSigner:
+  name: trillian-logsigner

@@ -1,0 +1,19 @@
+kind: ZarfPackageConfig
+metadata:
+  name: tsa
+  description: "A deployment of a Timestamp Authority"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/tsa
+
+components:
+  - name: tsa
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: tsa
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - ghcr.io/sigstore/timestamp-server:v1.2.1

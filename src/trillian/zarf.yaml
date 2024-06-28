@@ -1,0 +1,22 @@
+kind: ZarfPackageConfig
+metadata:
+  name: trillian
+  description: "A deployment of Trillian to provide Rekor and CTLog log storage"
+  url: https://github.com/sigstore/helm-charts
+
+components:
+  - name: trillian
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: trillian
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - cgr.dev/chainguard/netcat:latest
+      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
+      - ghcr.io/sigstore/scaffolding/trillian_log_server:v0.6.17
+      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v0.6.17

@@ -1,0 +1,34 @@
+kind: ZarfPackageConfig
+metadata:
+  name: fulcio
+  description: "A deployment of Fulcio to provide Web PKI within SWF"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
+
+components:
+  - name: fulcio
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: fulcio
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - cgr.dev/chainguard/netcat:latest
+      - docker.io/alpine/k8s:1.29.4
+      - docker.io/curlimages/curl:8.5.0
+      - docker.io/redis:6.2.14-alpine3.19
+      - gcr.io/projectsigstore/fulcio:v1.4.5
+      - gcr.io/projectsigstore/rekor-server:v1.3.6
+      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
+      - ghcr.io/sigstore/scaffolding/createcerts:v0.6.17
+      - ghcr.io/sigstore/scaffolding/createctconfig:v0.6.17
+      - ghcr.io/sigstore/scaffolding/createdb:v0.6.17
+      - ghcr.io/sigstore/scaffolding/createtree:v0.6.17
+      - ghcr.io/sigstore/scaffolding/ct_server:v0.6.17
+      - ghcr.io/sigstore/scaffolding/server:v0.6.17
+      - ghcr.io/sigstore/scaffolding/trillian_log_server:v0.6.17
+      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v0.6.17
+      - ghcr.io/sigstore/timestamp-server:v1.2.1

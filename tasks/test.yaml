@@ -1,4 +1,17 @@
+includes:
+  - ctlog: ./src/ctlog/tasks.yaml
+  - fulcio: ./src/fulcio/tasks.yaml
+  - rekor: ./src/rekor/tasks.yaml
+  - trillian: ./src/trillian/tasks.yaml
+  - tsa: ./src/tsa/tasks.yaml
+  - tuf: ./src/tuf/tasks.yaml
+
 tasks:
+  - name: all
+    actions:
+      - task: health-check
+      - task: ingress
+
   # - name: setup-data-stores
   #   actions:
   #     - description: Create the data store test package for the Valkey instance
@@ -8,145 +21,16 @@ tasks:
 
   - name: health-check
     actions:
-      - description: Validate CtLog Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: ctlog
-            namespace: ctlog-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Validate Fulcio Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: fulcio
-            namespace: fulcio-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Validate Rekor Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: rekor
-            namespace: rekor-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Validate Trillian Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: trillian
-            namespace: trillian-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Validate Timestamp Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: tsa
-            namespace: tsa-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Validate TUF Package
-        maxTotalSeconds: 300
-        wait:
-          cluster:
-            kind: Packages
-            name: tuf
-            namespace: tuf-system
-            condition: "'{.status.phase}'=Ready"
-      - description: Fulcio to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/name=fulcio
-            namespace: fulcio-system
-            condition: Available
-      - description: Rekor to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=server
-            namespace: rekor-system
-            condition: Available
-      - description: Rekor Redis to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=redis
-            namespace: rekor-system
-            condition: Available
-      - description: Trillian Log Server to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=trillian-logserver
-            namespace: trillian-system
-            condition: Available
-      - description: Trillian Log Signer to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=trillian-logsigner
-            namespace: trillian-system
-            condition: Available
-      - description: Trillian DB to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=mysql
-            namespace: trillian-system
-            condition: Available
-      - description: TUF to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/component=tuf
-            namespace: tuf-system
-            condition: Available
-      - description: TSA to be Healthy
-        maxTotalSeconds: 90
-        wait:
-          cluster:
-            kind: Deployment
-            name: app.kubernetes.io/name=tsa
-            namespace: tsa-system
-            condition: Available
+      - task: ctlog:health-check
+      - task: fulcio:health-check
+      - task: rekor:health-check
+      - task: trillian:health-check
+      - task: tsa:health-check
+      - task: tuf:health-check
 
   - name: ingress
     actions:
-      - description: Fulcio API Status Check
-        maxRetries: 30
-        cmd: |
-          STATUS=$(curl -s 'https://fulcio.uds.dev/healthz' | ./uds zarf tools yq '.status')
-          echo "SonarQube system status: ${STATUS}"
-          if [ $STATUS != "SERVING" ]; then
-            sleep 10
-            exit 1
-          fi
-      - description: Rekor UI Health Check
-        wait:
-          network:
-            protocol: https
-            address: rekor.uds.dev
-            code: 200
-      - description: TUF UI Health Check
-        wait:
-          network:
-            protocol: https
-            address: tuf.uds.dev/root.json
-            code: 200
-      - description: Timestamp Authority Health Check
-        wait:
-          network:
-            protocol: https
-            address: timestamp.uds.dev/api/v1/timestamp/certchain
-            code: 200
+      - task: fulcio:ingress
+      - task: rekor:ingress
+      - task: tsa:ingress
+      - task: tuf:ingress

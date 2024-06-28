@@ -1,0 +1,23 @@
+kind: ZarfPackageConfig
+metadata:
+  name: tuf
+  description: "A deployment of TUF to provide a framework for securing software update systems"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/tuf
+
+components:
+  - name: tuf
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: uds-tuf-config
+        valuesFiles:
+          - ./values/upstream-values-config.yaml
+      - name: tuf
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - docker.io/alpine/k8s:1.29.4
+      - ghcr.io/sigstore/scaffolding/server:v0.6.17

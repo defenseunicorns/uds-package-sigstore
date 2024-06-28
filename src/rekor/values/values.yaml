@@ -1,0 +1,22 @@
+server:
+  ingress:
+    enabled: false
+  service:
+    ports:
+      - name: tcp-3000
+        port: 3000
+        protocol: TCP
+        targetPort: 3000
+      - name: tcp-2112
+        port: 2112
+        protocol: TCP
+        targetPort: 2112
+
+namespace:
+  name: rekor-system
+  create: true
+
+forceNamespace: rekor-system
+
+trillian:
+  enabled: false

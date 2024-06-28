@@ -1,0 +1,36 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate Rekor Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: rekor
+            namespace: rekor-system
+            condition: "'{.status.phase}'=Ready"
+      - description: Rekor to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=server
+            namespace: rekor-system
+            condition: Available
+      - description: Rekor Redis to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=redis
+            namespace: rekor-system
+            condition: Available
+
+  - name: ingress
+    actions:
+      - description: Rekor UI Health Check
+        wait:
+          network:
+            protocol: https
+            address: rekor.uds.dev
+            code: 200

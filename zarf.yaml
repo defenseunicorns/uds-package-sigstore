@@ -1,40 +1,39 @@
 kind: ZarfPackageConfig
 metadata:
   name: sigstore
-  description: "A deployment of Sigstore to manage signing of artifacts within SWF"
+  description: "A deployment of the primary Sigstore components"
   url: https://github.com/sigstore/helm-charts
   # x-release-please-start-version
-  version: "0.6.50-uds.0"
+  version: "0.1.0"
   # x-release-please-end
 
 components:
-  - name: sigstore
+  - name: trillian
     required: true
-    only:
-      flavor: upstream
     import:
-      path: common
-    charts:
-      - name: uds-sigstore-config
-        valuesFiles:
-          - ./values/upstream-values-config.yaml
-      - name: sigstore
-        valuesFiles:
-          - ./values/upstream-values.yaml
-    images:
-      - cgr.dev/chainguard/netcat:latest
-      - docker.io/alpine/k8s:1.29.4
-      - docker.io/curlimages/curl:8.5.0
-      - docker.io/redis:6.2.14-alpine3.19
-      - gcr.io/projectsigstore/fulcio:v1.4.5
-      - gcr.io/projectsigstore/rekor-server:v1.3.6
-      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
-      - ghcr.io/sigstore/scaffolding/createcerts:v0.6.17
-      - ghcr.io/sigstore/scaffolding/createctconfig:v0.6.17
-      - ghcr.io/sigstore/scaffolding/createdb:v0.6.17
-      - ghcr.io/sigstore/scaffolding/createtree:v0.6.17
-      - ghcr.io/sigstore/scaffolding/ct_server:v0.6.17
-      - ghcr.io/sigstore/scaffolding/server:v0.6.17
-      - ghcr.io/sigstore/scaffolding/trillian_log_server:v0.6.17
-      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v0.6.17
-      - ghcr.io/sigstore/timestamp-server:v1.2.1
+      path: src/trillian
+
+  - name: fulcio
+    required: true
+    import:
+      path: src/fulcio
+
+  - name: ctlog
+    required: true
+    import:
+      path: src/ctlog
+
+  - name: rekor
+    required: true
+    import:
+      path: src/rekor
+
+  - name: tsa
+    required: true
+    import:
+      path: src/tsa
+
+  - name: tuf
+    required: true
+    import:
+      path: src/tuf
