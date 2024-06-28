@@ -19,7 +19,7 @@ spec:
       - direction: Egress
         remoteNamespace: trillian-system
         remoteSelector:
-          app.kubernetes.io/component: trillian-logserver
+          app.kubernetes.io/component: log-server
       
       # allow ctlog to talk to the fulcio log server
       - direction: Egress

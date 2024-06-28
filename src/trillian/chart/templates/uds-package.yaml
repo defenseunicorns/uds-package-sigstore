@@ -15,13 +15,13 @@ spec:
       - direction: Ingress
         remoteNamespace: rekor-system
         selector:
-          app.kubernetes.io/component: trillian-logserver
+          app.kubernetes.io/component: log-server
 
       # allow ctlog to talk to the trillian log server
       - direction: Ingress
         remoteNamespace: ctlog-system
         selector:
-          app.kubernetes.io/component: trillian-logserver
+          app.kubernetes.io/component: log-server
 
       # Custom rules to allow clients to connect
     {{- range .Values.custom }}

@@ -26,7 +26,7 @@ spec:
       - direction: Egress
         remoteNamespace: trillian-system
         remoteSelector:
-          app.kubernetes.io/component: trillian-logserver
+          app.kubernetes.io/component: log-server
 
       # allow tuf to talk to the rekor server
       - direction: Ingress
