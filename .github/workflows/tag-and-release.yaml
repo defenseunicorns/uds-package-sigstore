@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   tag-new-version:
@@ -19,18 +18,19 @@ jobs:
     steps:
       - name: Create release tag
         id: tag
-        uses: google-github-actions/release-please-action@a37ac6e4f6449ce8b3f7607e4d97d0146028dc0b # v4.1.0
+        uses: google-github-actions/release-please-action@b887451af5bc7edb3f1b040349a3405b018fe48a # v0.7.0
       - id: release-flag
         run: echo "release_created=${{ steps.tag.outputs.release_created || false }}" >> $GITHUB_OUTPUT
 
   publish-package:
     needs: tag-new-version
     if: ${{ needs.tag-new-version.outputs.release_created == 'true' }}
-    runs-on: ubuntu-latest
-    name: Publish ${{ matrix.flavor }}
+    runs-on: ${{ matrix.architecture == 'arm64' && 'uds-ubuntu-arm64-4-core' || 'ubuntu-latest' }}
+    name: Publish ${{ matrix.flavor }} ${{ matrix.architecture }}
     strategy:
       matrix:
         flavor: [upstream]
+        architecture: [amd64, arm64]
 
     permissions:
       contents: read
@@ -40,17 +40,28 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Environment setup
-        uses: defenseunicorns/uds-common/.github/actions/setup@7cb81b1d4d9853c838200906e17a1c798a2d835e # v0.4.6
+        uses: defenseunicorns/uds-common/.github/actions/setup@b887451af5bc7edb3f1b040349a3405b018fe48a # v0.7.0
         with:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
           ghToken: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build Package
+        run: uds run -f tasks/publish.yaml build-package --set FLAVOR=${{ matrix.flavor }} --no-progress
+
+      - name: Test Package
+        if: ${{ runner.arch != 'ARM64' }}
+        run: uds run -f tasks/publish.yaml test-package --set FLAVOR=${{ matrix.flavor }} --no-progress
+
       - name: Publish Package
-        run: uds run -f tasks/publish.yaml package --set FLAVOR=${{ matrix.flavor }}
+        run: uds run -f tasks/publish.yaml publish-package --set FLAVOR=${{ matrix.flavor }} --no-progress
+
+      - name: Debug Output
+        if: ${{ always() }}
+        uses: defenseunicorns/uds-common/.github/actions/debug-output@b887451af5bc7edb3f1b040349a3405b018fe48a # v0.7.0
 
       - name: Save logs
         if: always()
-        uses: defenseunicorns/uds-common/.github/actions/save-logs@7cb81b1d4d9853c838200906e17a1c798a2d835e # v0.4.6
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@b887451af5bc7edb3f1b040349a3405b018fe48a # v0.7.0
         with:
           suffix: ${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}

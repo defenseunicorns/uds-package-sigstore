@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Environment setup
-        uses: defenseunicorns/uds-common/.github/actions/setup@7cb81b1d4d9853c838200906e17a1c798a2d835e # v0.4.6
+        uses: defenseunicorns/uds-common/.github/actions/setup@b887451af5bc7edb3f1b040349a3405b018fe48a # v0.7.0
         with:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
@@ -28,8 +28,8 @@ jobs:
 
       - name: Install lint deps
         run: |
-          uds run lint:deps
+          uds run lint:deps --no-progress
 
       - name: Lint the repository
         run: |
-          uds run lint:yaml
+          uds run lint:yaml --no-progress
