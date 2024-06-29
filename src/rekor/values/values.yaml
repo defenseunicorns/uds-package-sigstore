@@ -20,3 +20,7 @@ forceNamespace: rekor-system
 
 trillian:
   enabled: false
+  logServer:
+    name: trillian-log-server
+  logSigner:
+    name: trillian-log-signer

@@ -11,7 +11,7 @@ spec:
     mode: STRICT
   selector:
     matchLabels:
-      app.kubernetes.io/component: trillian-logserver 
+      app.kubernetes.io/component: log-server 
   portLevelMtls:
     "8090":
       mode: PERMISSIVE
