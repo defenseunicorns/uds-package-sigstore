@@ -7,8 +7,8 @@ initContainerImage:
 redis:
   image:
     registry: docker.io
-    repository: redis
-    version: 6.2.14-alpine3.19
+    repository: bitnami/valkey
+    version: 7.2.5-debian-12-r5
 
 server:
   image:
