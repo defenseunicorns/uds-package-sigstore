@@ -19,13 +19,23 @@ spec:
           app.kubernetes.io/name: fulcio
         gateway: tenant
         host: fulcio
-        port: 5555
+        port: 5554
+        advancedHTTP:
+          match:
+            - name: gRPC Traffic
+              uri:
+                prefix: /dev.sigstore.fulcio.v2.CA
       - service: fulcio-server
         selector:
           app.kubernetes.io/name: fulcio
         gateway: tenant
-        host: fulcio-grpc
-        port: 5554
+        host: fulcio
+        port: 5555
+        advancedHTTP:
+          match:
+            - name: HTTP Traffic
+              uri:
+                prefix: /
     allow:
       - direction: Ingress
         remoteGenerated: IntraNamespace
