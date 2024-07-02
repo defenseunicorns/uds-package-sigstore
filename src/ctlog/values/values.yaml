@@ -1,5 +1,6 @@
 createctconfig:
   fulcioURL: http://fulcio-server.fulcio-system.svc:5555
+  logPrefix: uds-sigstore
 
 service:
   type: ClusterIP
