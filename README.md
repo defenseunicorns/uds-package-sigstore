@@ -1,8 +1,8 @@
-# 🏭 UDS Postgres Operator Package
+# 🏭 UDS Sigstore Package
 
-[![Latest Release](https://img.shields.io/github/v/release/defenseunicorns/uds-package-postgres-operator)](https://github.com/defenseunicorns/uds-package-postgres-operator/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-postgres-operator/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-postgres-operator/actions/workflows/tag-and-release.yaml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-postgres-operator/badge)](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-postgres-operator)
+[![Latest Release](https://img.shields.io/github/v/release/defenseunicorns/uds-package-sigstore)](https://github.com/defenseunicorns/uds-package-sigstore/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-sigstore/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-sigstore/actions/workflows/tag-and-release.yaml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-sigstore/badge)](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-sigstore)
 
 > [!WARNING]  
 > `uds-package-sigstore` is in early alpha and is not ready for general consumption.  It is currently supported as a way to sign `in-toto` attestations within GitLab runner.
