@@ -1,0 +1,37 @@
+server:
+  ingress:
+    http:
+      enabled: false
+  service:
+    ports:
+      - name: http
+        port: 5555
+        protocol: TCP
+        targetPort: 5555
+      - name: grpc
+        port: 5554
+        protocol: TCP
+        targetPort: 5554
+      - name: tcp-2112
+        port: 2112
+        protocol: TCP
+        targetPort: 2112
+
+config:
+  contents:
+    OIDCIssuers:
+      https://gitlab.###ZARF_VAR_DOMAIN###:
+        IssuerURL: https://gitlab.###ZARF_VAR_DOMAIN###
+        ClientID: sigstore
+        Type: gitlab-pipeline
+
+namespace:
+  name: fulcio-system
+  create: true
+
+forceNamespace: fulcio-system
+
+ctlog:
+  enabled: false
+  createctconfig:
+    logPrefix: uds-sigstore

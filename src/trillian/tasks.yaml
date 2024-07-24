@@ -1,0 +1,35 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate Trillian Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: trillian
+            namespace: trillian-system
+            condition: "'{.status.phase}'=Ready"
+      - description: Trillian DB to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=mysql
+            namespace: trillian-system
+            condition: Available
+      - description: Trillian Log Server to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=log-server
+            namespace: trillian-system
+            condition: Available
+      - description: Trillian Log Signer to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=log-signer
+            namespace: trillian-system
+            condition: Available

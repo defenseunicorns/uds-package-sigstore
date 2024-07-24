@@ -1,0 +1,51 @@
+apiVersion: uds.dev/v1alpha1
+kind: Package
+metadata:
+  name: tuf
+  namespace: {{ .Release.Nameapace }}
+spec:
+  network:
+    expose:
+      - service: tuf-server
+        selector:
+          app.kubernetes.io/name: tuf
+        gateway: tenant
+        host: tuf
+        port: 8080
+    allow:
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+
+      # allow tuf jobs to pull information from k8s
+      - direction: Egress
+        remoteGenerated: KubeAPI
+
+      # allow tuf to talk to the tsa server
+      - direction: Egress
+        remoteNamespace: tsa-system
+        remoteSelector:
+          app.kubernetes.io/name: tsa
+
+      # allow tuf to talk to the rekor server
+      - direction: Egress
+        remoteNamespace: rekor-system
+        remoteSelector:
+          app.kubernetes.io/name: rekor
+
+      # Custom rules to allow clients to connect
+    {{- range .Values.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+    {{- end }}

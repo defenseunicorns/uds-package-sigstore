@@ -1,0 +1,33 @@
+initContainerImage:
+  curl:
+    registry: docker.io
+    repository: curlimages/curl
+    version: "8.5.0"
+  netcat:
+    registry: cgr.dev
+    repository: chainguard/netcat
+    version: latest
+
+mysql:
+  image:
+    registry: gcr.io
+    repository: trillian-opensource-ci/db_server
+    version: v1.5.3
+
+logServer:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/trillian_log_server
+    version: v0.6.17
+
+logSigner:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/trillian_log_signer
+    version: v0.6.17
+
+createdb:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/createdb
+    version: v0.6.17

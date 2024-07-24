@@ -1,0 +1,20 @@
+kind: ZarfPackageConfig
+metadata:
+  name: fulcio
+  description: "A certificate authority that issues code-signing certificates bound to an OIDC identity"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
+
+components:
+  - name: fulcio
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: fulcio
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - gcr.io/projectsigstore/fulcio:v1.4.5
+      - ghcr.io/sigstore/scaffolding/createcerts:v0.6.17

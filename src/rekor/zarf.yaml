@@ -1,0 +1,22 @@
+kind: ZarfPackageConfig
+metadata:
+  name: rekor
+  description: "An artifact signature and attestation transparency log"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/rekor
+
+components:
+  - name: rekor
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: rekor
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - docker.io/curlimages/curl:8.5.0
+      - docker.io/valkey/valkey:7.2.5-alpine3.19
+      - gcr.io/projectsigstore/rekor-server:v1.3.6
+      - ghcr.io/sigstore/scaffolding/createtree:v0.6.17

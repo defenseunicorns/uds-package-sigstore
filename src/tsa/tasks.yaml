@@ -1,0 +1,28 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate Timestamp Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: tsa
+            namespace: tsa-system
+            condition: "'{.status.phase}'=Ready"
+      - description: TSA to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/name=tsa
+            namespace: tsa-system
+            condition: Available
+
+  - name: ingress
+    actions:
+      - description: Timestamp Authority Health Check
+        wait:
+          network:
+            protocol: https
+            address: timestamp.uds.dev/api/v1/timestamp/certchain
+            code: 200

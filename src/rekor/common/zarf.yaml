@@ -1,0 +1,51 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-rekor-common
+  description: "UDS Rekor Common"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/rekor
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: rekor
+    required: true
+    charts:
+      - name: uds-rekor-config
+        namespace: rekor-system
+        version: 0.1.0
+        localPath: ../chart
+      - name: rekor
+        version: 1.4.2
+        namespace: rekor-system
+        url: oci://ghcr.io/sigstore/helm-charts/rekor
+        valuesFiles:
+          - ../values/values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate Rekor Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: rekor
+                namespace: rekor-system
+                condition: "'{.status.phase}'=Ready"
+          - description: Rekor to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=server
+                namespace: rekor-system
+                condition: Available
+          - description: Rekor Redis to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=redis
+                namespace: rekor-system
+                condition: Available

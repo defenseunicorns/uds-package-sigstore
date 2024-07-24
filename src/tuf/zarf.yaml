@@ -1,0 +1,23 @@
+kind: ZarfPackageConfig
+metadata:
+  name: tuf
+  description: "A bring-your-own TUF trust root"
+  url: https://theupdateframework.io/
+
+components:
+  - name: tuf
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: uds-tuf-config
+        valuesFiles:
+          - ./values/upstream-values-config.yaml
+      - name: tuf
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - docker.io/alpine/k8s:1.29.4
+      - ghcr.io/sigstore/scaffolding/server:v0.6.17

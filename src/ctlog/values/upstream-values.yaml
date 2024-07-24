@@ -1,0 +1,23 @@
+server:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/ct_server
+    version: v0.6.17
+
+createtree:
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/createtree
+    version: v0.6.17
+
+createctconfig:
+  initContainerImage:
+    curl:
+      registry: docker.io
+      repository: curlimages/curl
+      version: "8.5.0"
+
+  image:
+    registry: ghcr.io
+    repository: sigstore/scaffolding/createctconfig
+    version: v0.6.17

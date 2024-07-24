@@ -1,0 +1,11 @@
+custom: []
+
+copySecretJob:
+  enabled: true
+  name: copy-secrets-job
+  registry: docker.io
+  repository: alpine/k8s
+  version: "1.29.4"
+  imagePullPolicy: IfNotPresent
+  serviceaccount: tuf-secret-copy-job
+  backoffLimit: 6

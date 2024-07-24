@@ -1,0 +1,11 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate CtLog Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: ctlog
+            namespace: ctlog-system
+            condition: "'{.status.phase}'=Ready"

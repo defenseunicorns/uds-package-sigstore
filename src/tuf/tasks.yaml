@@ -1,0 +1,28 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate TUF Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: tuf
+            namespace: tuf-system
+            condition: "'{.status.phase}'=Ready"
+      - description: TUF to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/component=tuf
+            namespace: tuf-system
+            condition: Available
+
+  - name: ingress
+    actions:
+      - description: TUF UI Health Check
+        wait:
+          network:
+            protocol: https
+            address: tuf.uds.dev/root.json
+            code: 200

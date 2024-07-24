@@ -1,0 +1,22 @@
+kind: ZarfPackageConfig
+metadata:
+  name: ctlog
+  description: "A Certificate Transparency Log to track certificates issued by Fulcio"
+  url: https://github.com/sigstore/fulcio/blob/main/docs/ctlog.md
+
+components:
+  - name: ctlog
+    required: true
+    only:
+      flavor: upstream
+    import:
+      path: common
+    charts:
+      - name: ctlog
+        valuesFiles:
+          - ./values/upstream-values.yaml
+    images:
+      - docker.io/curlimages/curl:8.5.0
+      - ghcr.io/sigstore/scaffolding/createctconfig:v0.6.17
+      - ghcr.io/sigstore/scaffolding/createtree:v0.6.17
+      - ghcr.io/sigstore/scaffolding/ct_server:v0.6.17

@@ -1,0 +1,43 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-fulcio-common
+  description: "UDS Fulcio Common"
+  url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: fulcio
+    required: true
+    charts:
+      - name: uds-fulcio-config
+        namespace: fulcio-system
+        version: 0.1.0
+        localPath: ../chart
+      - name: fulcio
+        version: 2.3.20
+        namespace: fulcio-system
+        url: oci://ghcr.io/sigstore/helm-charts/fulcio
+        valuesFiles:
+          - ../values/values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate Fulcio Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: fulcio
+                namespace: fulcio-system
+                condition: "'{.status.phase}'=Ready"
+          - description: Fulcio to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/name=fulcio
+                namespace: fulcio-system
+                condition: Available

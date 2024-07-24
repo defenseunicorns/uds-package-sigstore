@@ -1,0 +1,63 @@
+includes:
+  - test: ./tasks/test.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/create.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/lint.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/pull.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/deploy.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/setup.yaml
+
+tasks:
+  - name: default
+    description: Create K3D Cluster with UDS-Core-Istio + Sigstore
+    actions:
+      - task: create-ss-test-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
+
+  - name: create-ss-package
+    description: Create UDS Sigstore Package
+    actions:
+      - task: create:package
+        with:
+          options: "--skip-sbom"
+
+  - name: create-ss-test-bundle
+    description: Create UDS Sigstore bundle
+    actions:
+      - task: create-ss-package
+      - task: create:test-bundle
+
+  - name: create-ss-latest-release-bundle
+    description: Create UDS Sigstore bundle based on the latest release
+    actions:
+      - task: pull:latest-package-release
+        with:
+          spoof_release: "true"
+      - task: create:test-bundle
+
+  - name: dev
+    description: Deploy Sigstore on existing cluster
+    actions:
+      - task: create-ss-package
+      - task: create-ss-test-bundle
+      - task: deploy:test-bundle
+
+# CI will execute the following (via uds-common/.github/actions/test) so they need to be here with these names
+
+  - name: test-package
+    description: Test the health of a Sigstore deployment
+    actions:
+      - task: create-ss-test-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
+      - task: test:all
+
+  - name: test-upgrade
+    description: Test an upgrade from the latest released package to the current branch
+    actions:
+      - task: create-ss-latest-release-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
+      - task: create-ss-test-bundle
+      - task: deploy:test-bundle
+      - task: test:all

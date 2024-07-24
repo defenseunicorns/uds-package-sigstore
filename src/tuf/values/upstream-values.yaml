@@ -1,0 +1,4 @@
+deployment:
+  registry: ghcr.io
+  repository: sigstore/scaffolding/server
+  version: v0.6.17

@@ -1,0 +1,59 @@
+kind: ZarfPackageConfig
+metadata:
+  name: uds-trillian-common
+  description: "UDS Trillian Common"
+  url: https://github.com/sigstore/helm-charts
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: trillian
+    required: true
+    charts:
+      - name: uds-trillian-config
+        namespace: trillian-system
+        version: 0.1.0
+        localPath: ../chart
+      - name: trillian
+        version: 0.2.24
+        namespace: trillian-system
+        url: oci://ghcr.io/sigstore/helm-charts/trillian
+        valuesFiles:
+          - ../values/values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate Trillian Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: trillian
+                namespace: trillian-system
+                condition: "'{.status.phase}'=Ready"
+          - description: Trillian DB to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=mysql
+                namespace: trillian-system
+                condition: Available
+          - description: Trillian Log Server to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=log-server
+                namespace: trillian-system
+                condition: Available
+          - description: Trillian Log Signer to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Deployment
+                name: app.kubernetes.io/component=log-signer
+                namespace: trillian-system
+                condition: Available

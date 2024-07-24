@@ -1,0 +1,86 @@
+apiVersion: uds.dev/v1alpha1
+kind: Package
+metadata:
+  name: fulcio
+  namespace: {{ .Release.Namespace }}
+spec:
+  sso:
+    - name: Sigstore Login
+      clientId: sigstore
+      redirectUris:
+        # - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
+        - "http://pepr.cannot.do.localhost.uds.dev/auth"
+      secret: "sigstore"
+      serviceAccountsEnabled: true
+  network:
+    expose:
+      - service: fulcio-server
+        selector:
+          app.kubernetes.io/name: fulcio
+        gateway: tenant
+        host: fulcio
+        port: 5554
+        advancedHTTP:
+          match:
+            - name: gRPC Traffic
+              uri:
+                prefix: /dev.sigstore.fulcio.v2.CA
+      - service: fulcio-server
+        selector:
+          app.kubernetes.io/name: fulcio
+        gateway: tenant
+        host: fulcio
+        port: 5555
+        advancedHTTP:
+          match:
+            - name: HTTP Traffic
+              uri:
+                prefix: /
+    allow:
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+
+      # allow fulcio jobs to pull information from k8s
+      - direction: Egress
+        remoteGenerated: KubeAPI
+      
+      # allow ctlog to talk to the fulcio server
+      - direction: Ingress
+        remoteNamespace: ctlog-system
+        selector:
+          app.kubernetes.io/name: fulcio
+        port: 5555
+
+      # allow fulcio to talk to ctlog
+      - direction: Egress
+        remoteNamespace: ctlog-system
+        selector:
+          app.kubernetes.io/name: fulcio
+
+      # Allow access to other UDS services (i.e. sso.<domain>, gitlab.<domain>) from fulcio
+      - direction: Egress
+        remoteNamespace: istio-tenant-gateway
+        remoteSelector:
+          app: tenant-ingressgateway
+        selector:
+          app.kubernetes.io/name: fulcio
+        port: 443
+        description: "UDS Tenant Gateway Services"
+
+      # Custom rules to allow clients to connect
+    {{- range .Values.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+    {{- end }}

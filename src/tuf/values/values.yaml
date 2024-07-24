@@ -1,0 +1,11 @@
+ingress:
+  create: false
+
+service:
+  port: 8080
+
+namespace:
+  name: tuf-system
+  create: true
+
+forceNamespace: tuf-system

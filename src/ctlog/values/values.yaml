@@ -1,0 +1,25 @@
+createctconfig:
+  fulcioURL: http://fulcio-server.fulcio-system.svc:5555
+  logPrefix: uds-sigstore
+
+service:
+  type: ClusterIP
+  ports:
+    - name: tcp-6962
+      port: 80
+      protocol: TCP
+      targetPort: 6962
+    - name: tcp-6963
+      port: 6963
+      protocol: TCP
+      targetPort: 6963
+
+namespace:
+  name: ctlog-system
+  create: true
+
+forceNamespace: ctlog-system
+
+trillian:
+  logServer:
+    name: trillian-log-server

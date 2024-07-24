@@ -1,0 +1,21 @@
+server:
+  svcPort: 5555
+  args:
+    # TODO (@WSTARR): TEMPORARY TESTING ONLY
+    signer: memory
+  service:
+    ports:
+      - name: http
+        port: 5555
+        protocol: TCP
+        targetPort: 5555
+      - name: metrics
+        port: 2112
+        protocol: TCP
+        targetPort: 2112
+
+namespace:
+  name: tsa-system
+  create: true
+
+forceNamespace: tsa-system

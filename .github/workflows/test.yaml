@@ -1,0 +1,69 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [main]
+    types: [milestoned, opened, synchronize]
+    paths-ignore:
+      - "**.md"
+      - "**.jpg"
+      - "**.png"
+      - "**.gif"
+      - "**.svg"
+      - "adr/**"
+      - "docs/**"
+      - ".gitignore"
+      - "renovate.json"
+      - ".release-please-config.json"
+      - "release-please-config.json"
+      - "oscal-component.yaml"
+      - "CODEOWNERS"
+      - "LICENSE"
+      - "CONTRIBUTING.md"
+      - "SECURITY.md"
+
+
+# Abort prior jobs in the same workflow / PR
+concurrency:
+  group: test-${{ github.ref }}-${{ inputs.package }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.type }} ${{ matrix.flavor }}
+    runs-on: uds-swf-ubuntu-big-boy-4-core # TODO: (@WSTARR) Replace once repo is made public
+    timeout-minutes: 25
+    strategy:
+      matrix:
+        flavor: [upstream]
+        type: [install]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+
+      - name: Environment setup
+        uses: defenseunicorns/uds-common/.github/actions/setup@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
+        with:
+          registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
+          registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
+          ghToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        uses: defenseunicorns/uds-common/.github/actions/test@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
+        with:
+          flavor: ${{ matrix.flavor }}
+          type: ${{ matrix.type }}
+
+      - name: Debug Output
+        if: ${{ always() }}
+        uses: defenseunicorns/uds-common/.github/actions/debug-output@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
+
+      - name: Save logs
+        if: always()
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
+        with:
+          suffix: ${{ matrix.type }}-${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}

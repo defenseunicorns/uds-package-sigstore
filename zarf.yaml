@@ -1,0 +1,39 @@
+kind: ZarfPackageConfig
+metadata:
+  name: sigstore
+  description: "A deployment of the primary components in the Sigstore stack"
+  url: https://github.com/sigstore/helm-charts
+  # x-release-please-start-version
+  version: "0.1.0"
+  # x-release-please-end
+
+components:
+  - name: trillian
+    required: true
+    import:
+      path: src/trillian
+
+  - name: fulcio
+    required: true
+    import:
+      path: src/fulcio
+
+  - name: ctlog
+    required: true
+    import:
+      path: src/ctlog
+
+  - name: rekor
+    required: true
+    import:
+      path: src/rekor
+
+  - name: tsa
+    required: true
+    import:
+      path: src/tsa
+
+  - name: tuf
+    required: true
+    import:
+      path: src/tuf

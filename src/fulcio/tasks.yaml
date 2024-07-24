@@ -1,0 +1,31 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: Validate Fulcio Package
+        maxTotalSeconds: 300
+        wait:
+          cluster:
+            kind: Packages
+            name: fulcio
+            namespace: fulcio-system
+            condition: "'{.status.phase}'=Ready"
+      - description: Fulcio to be Healthy
+        maxTotalSeconds: 90
+        wait:
+          cluster:
+            kind: Deployment
+            name: app.kubernetes.io/name=fulcio
+            namespace: fulcio-system
+            condition: Available
+
+  - name: ingress
+    actions:
+      - description: Fulcio API Status Check
+        maxRetries: 30
+        cmd: |
+          STATUS=$(curl -s 'https://fulcio.uds.dev/healthz' | ./uds zarf tools yq '.status')
+          echo "Fulcio status: ${STATUS}"
+          if [ $STATUS != "SERVING" ]; then
+            sleep 10
+            exit 1
+          fi
