@@ -18,5 +18,5 @@ components:
     images:
       - cgr.dev/chainguard/netcat:latest
       - gcr.io/trillian-opensource-ci/db_server:v1.5.3
-      - ghcr.io/sigstore/scaffolding/trillian_log_server:v0.6.17
-      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v0.6.17
+      - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.0
+      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.0
