@@ -42,11 +42,11 @@ components:
               - name: OPENBAO_POD
           - description: Import the CA key material for Fulcio
             cmd: |
-              ./zarf tools kubectl cp -n dev-localstack ${ZARF_VAR_FULCIO_CA_BUNDLE} ${ZARF_VAR_OPENBAO_POD}:/home/openbao/ca-bundle.pem
+              ./zarf tools kubectl cp -n dev-openbao ${ZARF_VAR_FULCIO_CA_BUNDLE} ${ZARF_VAR_OPENBAO_POD}:/home/openbao/ca-bundle.pem
 
-              ./zarf tools kubectl exec -n dev-localstack ${ZARF_VAR_LOCALSTACK_POD} -- \
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao secrets enable pki
-              ./zarf tools kubectl exec -n dev-localstack ${ZARF_VAR_LOCALSTACK_POD} -- \
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao write pki/config/ca pem_bundle=@/home/openbao/ca-bundle.pem
     images:
       - docker.io/openbao/openbao:2.0.0
