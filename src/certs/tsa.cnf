@@ -1,0 +1,19 @@
+# Timestamp Authority certificate configuration
+
+[ req ]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[ req_distinguished_name ]
+countryName            = US
+stateOrProvinceName    = Colorado
+localityName           = Colorado Springs
+organizationName       = Defense Unicorns 
+organizationalUnitName = Development Only
+commonName             = Timestamp Authority
+
+[ v3_req ]
+subjectKeyIdentifier   = hash
+keyUsage               = critical, nonRepudiation
+extendedKeyUsage       = critical, timeStamping

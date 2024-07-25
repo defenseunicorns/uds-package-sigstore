@@ -1,0 +1,3 @@
+variables:
+  dev-openbao:
+    FULCIO_CA_BUNDLE: src/certs/ca-bundle.pem

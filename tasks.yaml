@@ -1,5 +1,6 @@
 includes:
   - test: ./tasks/test.yaml
+  - dependencies: ./tasks/dependencies.yaml
   - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/create.yaml
   - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/lint.yaml
   - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.9.0/tasks/pull.yaml
@@ -25,6 +26,7 @@ tasks:
     description: Create UDS Sigstore bundle
     actions:
       - task: create-ss-package
+      - task: dependencies:create
       - task: create:test-bundle
 
   - name: create-ss-latest-release-bundle
@@ -33,6 +35,7 @@ tasks:
       - task: pull:latest-package-release
         with:
           spoof_release: "true"
+      - task: dependencies:create
       - task: create:test-bundle
 
   - name: dev

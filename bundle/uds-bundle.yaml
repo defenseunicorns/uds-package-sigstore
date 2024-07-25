@@ -7,9 +7,41 @@ metadata:
   # x-release-please-end
 
 packages:
+  - name: dev-openbao
+    path: ../
+    ref: 0.1.0
+    exports:
+      - name: FULCIO_KEY_ID
+
   - name: sigstore
     path: ../
     # x-release-please-start-version
     ref: 0.1.0
     # x-release-please-end
+    imports:
+      - name: FULCIO_KEY_ID
+        package: dev-openbao
     overrides:
+      fulcio:
+        fulcio:
+          values:
+            - path: server.args.kms_resource
+              value: awskms://localstack.uds.dev/arn:aws:kms:us-east-1:000000000000:key/###ZARF_VAR_FULCIO_KEY_ID###
+            - path: server.args.kms_cert_chain
+              value: |-
+                -----BEGIN CERTIFICATE-----
+                MIICdzCCAh2gAwIBAgIUaQGnwxEihcQ10HDWDAWheR2thAQwCgYIKoZIzj0EAwIw
+                gYgxCzAJBgNVBAYTAlVTMREwDwYDVQQIDAhDb2xvcmFkbzEZMBcGA1UEBwwQQ29s
+                b3JhZG8gU3ByaW5nczEZMBcGA1UECgwQRGVmZW5zZSBVbmljb3JuczEZMBcGA1UE
+                CwwQRGV2ZWxvcG1lbnQgT25seTEVMBMGA1UEAwwMRG91ZyBVbmljb3JuMB4XDTI0
+                MDcxNzE4NTg1M1oXDTI5MDcxNjE4NTg1M1owgYgxCzAJBgNVBAYTAlVTMREwDwYD
+                VQQIDAhDb2xvcmFkbzEZMBcGA1UEBwwQQ29sb3JhZG8gU3ByaW5nczEZMBcGA1UE
+                CgwQRGVmZW5zZSBVbmljb3JuczEZMBcGA1UECwwQRGV2ZWxvcG1lbnQgT25seTEV
+                MBMGA1UEAwwMRG91ZyBVbmljb3JuMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE
+                13hm8FYlXJTIR3EqB/Yqb1J0UCAF4YlwKMRWIhzdlleczL38dFEXx+61dMITzTtj
+                92TisBjaS0OLZ696JJ/EeKNjMGEwHQYDVR0OBBYEFGTJRNEEYrtDt3dlqpaxxdZK
+                O7CjMB8GA1UdIwQYMBaAFGTJRNEEYrtDt3dlqpaxxdZKO7CjMA8GA1UdEwEB/wQF
+                MAMBAf8wDgYDVR0PAQH/BAQDAgEGMAoGCCqGSM49BAMCA0gAMEUCIB4mNcnghWXD
+                xRF1HWt3iGd24MN+TnlqFS4ORNoPhv7PAiEAzmNgT13bu+mwE88UUHvFsnT/QBlK
+                cH8bSgmTmFOrggc=
+                -----END CERTIFICATE-----

@@ -6,3 +6,6 @@ build/
 *.tar.zst
 zarf-sbom
 tmp/
+*.pem
+*.key
+*.csr

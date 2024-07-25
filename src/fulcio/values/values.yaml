@@ -16,6 +16,8 @@ server:
         port: 2112
         protocol: TCP
         targetPort: 2112
+  args:
+    certificateAuthority: kmsca
 
 config:
   contents:
@@ -30,6 +32,9 @@ namespace:
   create: true
 
 forceNamespace: fulcio-system
+
+createcerts:
+  enabled: false
 
 ctlog:
   enabled: false

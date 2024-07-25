@@ -1,0 +1,33 @@
+tasks:
+  - name: create
+    description: Create the dependency Zarf Package
+    inputs:
+      options:
+        description: For setting create time variables and flags
+      architecture:
+        description: The architecture of the package to create
+        default: ${UDS_ARCH}
+    actions:
+      - cmd: ./uds zarf package create src/dev-localstack/ --confirm --no-progress --architecture=${{ .inputs.architecture }} --skip-sbom ${{ .inputs.options }}
+
+  - name: certs
+    description: Create the certificates needed to initialize Fulcio / TSA
+    actions:
+      - description: Create the CA Root
+        cmd: |
+          openssl genrsa -out ca.key 4096
+          openssl req -x509 -new -nodes -key ca.key -sha256 -days 1825 -out ca.pem -config ca.cnf
+        dir: src/certs
+      - description: Create the Fulcio Intermediate CA
+        cmd: |
+          openssl genrsa -out fulcio.key 4096
+          openssl req -new -key fulcio.key -sha256 -out fulcio.csr -config fulcio.cnf
+          openssl x509 -req -in fulcio.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out fulcio.pem -days 365
+          cat fulcio.key > fulcio-bundle.pem && cat ca.pem >> fulcio-bundle.pem && cat fulcio.pem >> fulcio-bundle.pem
+        dir: src/certs
+      - description: Create the TSA Key/Cert (based on the Fulcio Root for simplicity)
+        cmd: |
+          openssl genrsa -out tsa.key 4096
+          openssl req -new -key tsa.key -sha256 -out tsa.csr -config tsa.cnf
+          openssl x509 -req -in tsa.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out tsa.pem -days 365
+        dir: src/certs

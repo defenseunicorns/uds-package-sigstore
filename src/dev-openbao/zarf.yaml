@@ -1,0 +1,52 @@
+kind: ZarfPackageConfig
+metadata:
+  name: dev-openbao
+  description: "A key management service that can run locally (not only for dev)"
+  url: https://github.com/openbao/openbao
+  version: v2.0.0
+
+variables:
+  - name: FULCIO_CA_BUNDLE
+    sensitive: true
+
+components:
+  - name: openbao
+    required: true
+    charts:
+      - name: uds-openbao-config
+        namespace: dev-openbao
+        version: 0.1.0
+        localPath: chart
+      - name: openbao
+        version: 0.4.0
+        namespace: dev-openbao
+        url: https://openbao.github.io/openbao-helm
+        valuesFiles:
+          - values/values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate OpenBao Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: openbao
+                namespace: dev-openbao
+                condition: "'{.status.phase}'=Ready"
+          - description: Lookup the openbao pod name
+            cmd: |
+              ./zarf tools kubectl get pod -n dev-openbao -l "app.kubernetes.io/name=openbao" -o json | \
+                ./zarf tools yq '[.items[] | select(.status.phase = "Running") | .metadata.name][0]'
+            setVariables:
+              - name: OPENBAO_POD
+          - description: Import the CA key material for Fulcio
+            cmd: |
+              ./zarf tools kubectl cp -n dev-localstack ${ZARF_VAR_FULCIO_CA_BUNDLE} ${ZARF_VAR_OPENBAO_POD}:/home/openbao/ca-bundle.pem
+
+              ./zarf tools kubectl exec -n dev-localstack ${ZARF_VAR_LOCALSTACK_POD} -- \
+                bao secrets enable pki
+              ./zarf tools kubectl exec -n dev-localstack ${ZARF_VAR_LOCALSTACK_POD} -- \
+                bao write pki/config/ca pem_bundle=@/home/openbao/ca-bundle.pem
+    images:
+      - docker.io/openbao/openbao:2.0.0
