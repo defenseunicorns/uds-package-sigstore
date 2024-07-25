@@ -18,13 +18,13 @@ logServer:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/trillian_log_server
-    version: v0.6.17
+    version: v1.6.0
 
 logSigner:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/trillian_log_signer
-    version: v0.6.17
+    version: v1.6.0
 
 createdb:
   image:
