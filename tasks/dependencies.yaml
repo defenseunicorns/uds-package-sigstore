@@ -15,19 +15,21 @@ tasks:
     actions:
       - description: Create the CA Root
         cmd: |
-          openssl genrsa -out ca.key 4096
-          openssl req -x509 -new -nodes -key ca.key -sha256 -days 1825 -out ca.pem -config ca.cnf
+          openssl genrsa -out ca.key.pem 4096
+          openssl req -x509 -new -nodes -key ca.key.pem -sha256 -days 1825 -out ca.crt.pem -config ca.cnf
         dir: src/certs
       - description: Create the Fulcio Intermediate CA
         cmd: |
-          openssl genrsa -out fulcio.key 4096
-          openssl req -new -key fulcio.key -sha256 -out fulcio.csr -config fulcio.cnf
-          openssl x509 -req -in fulcio.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out fulcio.pem -days 365 -extensions v3_req -extfile fulcio.cnf
-          cat ca.pem > fulcio-chain.pem && cat fulcio.pem >> fulcio-chain.pem
+          openssl genrsa -out fulcio.key.pem 4096
+          openssl req -new -key fulcio.key.pem -sha256 -out fulcio.csr -config fulcio.cnf
+          openssl x509 -req -in fulcio.csr -CA ca.crt.pem -CAkey ca.key.pem -CAcreateserial -out fulcio.crt.pem -days 365 -extensions v3_req -extfile fulcio.cnf
+          cat ca.crt.pem > fulcio.chain.pem && cat fulcio.crt.pem >> fulcio.chain.pem
+          openssl rsa -in fulcio.key.pem -out fulcio.key.der -outform DER
         dir: src/certs
       - description: Create the TSA Key/Cert (based on the Fulcio Root for simplicity)
         cmd: |
-          openssl genrsa -out tsa.key 4096
-          openssl req -new -key tsa.key -sha256 -out tsa.csr -config tsa.cnf
-          openssl x509 -req -in tsa.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out tsa.pem -days 365 -extensions v3_req -extfile tsa.cnf
+          openssl genrsa -out tsa.key.pem 4096
+          openssl req -new -key tsa.key.pem -sha256 -out tsa.csr -config tsa.cnf
+          openssl x509 -req -in tsa.csr -CA ca.crt.pem -CAkey ca.key.pem -CAcreateserial -out tsa.crt.pem -days 365 -extensions v3_req -extfile tsa.cnf
+          openssl rsa -in tsa.key.pem -out tsa.key.der -outform DER
         dir: src/certs

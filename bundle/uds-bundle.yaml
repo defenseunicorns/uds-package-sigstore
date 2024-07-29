@@ -21,4 +21,4 @@ packages:
         fulcio:
           values:
             - path: server.args.kms_resource
-              value: hashivault://###ZARF_VAR_FULCIO_KEY_ID###
+              value: hashivault://transit/keys/fulcio-key

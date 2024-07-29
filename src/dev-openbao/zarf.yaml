@@ -46,28 +46,28 @@ components:
                 bao secrets enable transit
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao read -field=public_key transit/wrapping_key > src/certs/wrapping-key.pem
+                bao read -field=public_key transit/wrapping_key > src/certs/wrapping.key.pem
 
-              openssl rand -out src/certs/aes.key 32
+              openssl rand -out src/certs/aes.key.der 32
 
               openssl enc -id-aes256-wrap-pad \
-                -K "$(xxd -p < src/certs/aes.key | tr -d '\n')" \
+                -K "$(xxd -p < src/certs/aes.key.der | tr -d '\n')" \
                 -iv A65959A6 \
                 -in ${ZARF_VAR_FULCIO_PRIVATE_KEY}\
-                -out src/certs/fulcio-wrapped.key
+                -out src/certs/fulcio-wrapped.key.der
 
               openssl pkeyutl \
                 -encrypt \
-                -in src/certs/aes.key \
-                -out src/certs/aes-wrapped.key \
-                -inkey src/certs/wrapping-key.pem \
+                -in src/certs/aes.key.der \
+                -out src/certs/aes-wrapped.key.der \
+                -inkey src/certs/wrapping.key.pem \
                 -keyform PEM \
                 -pubin \
                 -pkeyopt rsa_padding_mode:oaep \
                 -pkeyopt rsa_oaep_md:sha256 \
                 -pkeyopt rsa_mgf1_md:sha256
 
-              FULCIO_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key src/certs/fulcio-wrapped.key | base64 -w 0)
+              FULCIO_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/fulcio-wrapped.key.der | base64 -w 0)
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
