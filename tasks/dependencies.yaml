@@ -31,5 +31,6 @@ tasks:
           openssl genrsa -out tsa.key.pem 4096
           openssl req -new -key tsa.key.pem -sha256 -out tsa.csr -config tsa.cnf
           openssl x509 -req -in tsa.csr -CA ca.crt.pem -CAkey ca.key.pem -CAcreateserial -out tsa.crt.pem -days 365 -extensions v3_req -extfile tsa.cnf
+          cat tsa.crt.pem > tsa.chain.pem && cat ca.crt.pem >> tsa.chain.pem
           openssl rsa -in tsa.key.pem -out tsa.key.der -outform DER
         dir: src/certs

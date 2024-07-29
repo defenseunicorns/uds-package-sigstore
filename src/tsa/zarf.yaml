@@ -4,6 +4,12 @@ metadata:
   description: "A Timestamp Authority to provide trusted timestamping"
   url: https://github.com/sigstore/timestamp-authority
 
+variables:
+  - name: TSA_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+
 components:
   - name: tsa
     required: true

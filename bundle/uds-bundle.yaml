@@ -26,3 +26,12 @@ packages:
               value:
                 VAULT_ADDR: https://openbao.uds.dev
                 VAULT_TOKEN: root
+      tsa:
+        tsa:
+          values:
+            - path: server.args.kms_key_resource
+              value: hashivault://tsa-key
+            - path: server.env
+              value:
+                VAULT_ADDR: https://openbao.uds.dev
+                VAULT_TOKEN: root

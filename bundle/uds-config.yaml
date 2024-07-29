@@ -4,3 +4,4 @@ variables:
     TSA_PRIVATE_KEY: src/certs/tsa.key.der
   sigstore:
     FULCIO_KMS_CERT_CHAIN: src/certs/fulcio.chain.pem
+    TSA_KMS_CERT_CHAIN: src/certs/tsa.chain.pem
