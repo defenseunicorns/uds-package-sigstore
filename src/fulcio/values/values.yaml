@@ -18,6 +18,8 @@ server:
         targetPort: 2112
   args:
     certificateAuthority: kmsca
+    kms_cert_chain: |-
+      ###ZARF_VAR_FULCIO_KMS_CERT_CHAIN###
 
 config:
   contents:

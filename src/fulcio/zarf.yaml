@@ -5,8 +5,10 @@ metadata:
   url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
 
 variables:
-  - name: FULCIO_KEY_ID
+  - name: FULCIO_KMS_CERT_CHAIN
     sensitive: true
+    type: file
+    autoIndent: true
 
 components:
   - name: fulcio

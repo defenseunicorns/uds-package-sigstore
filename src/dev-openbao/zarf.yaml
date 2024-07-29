@@ -1,12 +1,12 @@
 kind: ZarfPackageConfig
 metadata:
   name: dev-openbao
-  description: "A key management service that can run locally (not only for dev)"
+  description: "A key management service that can run locally"
   url: https://github.com/openbao/openbao
-  version: v2.0.0
+  version: 0.1.0
 
 variables:
-  - name: FULCIO_CA_BUNDLE
+  - name: FULCIO_PRIVATE_KEY
     sensitive: true
 
 components:
@@ -40,13 +40,36 @@ components:
                 ./zarf tools yq '[.items[] | select(.status.phase = "Running") | .metadata.name][0]'
             setVariables:
               - name: OPENBAO_POD
-          - description: Import the CA key material for Fulcio
+          - description: Import the key material for Fulcio
             cmd: |
-              ./zarf tools kubectl cp -n dev-openbao ${ZARF_VAR_FULCIO_CA_BUNDLE} ${ZARF_VAR_OPENBAO_POD}:/home/openbao/ca-bundle.pem
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao secrets enable transit
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao secrets enable pki
+                bao read -field=public_key transit/wrapping_key > src/certs/wrapping-key.pem
+
+              openssl rand -out src/certs/aes.key 32
+
+              openssl enc -id-aes256-wrap-pad \
+                -K "$(xxd -p < src/certs/aes.key | tr -d '\n')" \
+                -iv A65959A6 \
+                -in ${ZARF_VAR_FULCIO_PRIVATE_KEY}\
+                -out src/certs/fulcio-wrapped.key
+
+              openssl pkeyutl \
+                -encrypt \
+                -in src/certs/aes.key \
+                -out src/certs/aes-wrapped.key \
+                -inkey src/certs/wrapping-key.pem \
+                -keyform PEM \
+                -pubin \
+                -pkeyopt rsa_padding_mode:oaep \
+                -pkeyopt rsa_oaep_md:sha256 \
+                -pkeyopt rsa_mgf1_md:sha256
+
+              FULCIO_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key src/certs/fulcio-wrapped.key | base64 -w 0)
+
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao write pki/config/ca pem_bundle=@/home/openbao/ca-bundle.pem
+                bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
     images:
       - docker.io/openbao/openbao:2.0.0

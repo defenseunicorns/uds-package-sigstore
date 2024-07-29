@@ -23,7 +23,7 @@ tasks:
           openssl genrsa -out fulcio.key 4096
           openssl req -new -key fulcio.key -sha256 -out fulcio.csr -config fulcio.cnf
           openssl x509 -req -in fulcio.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out fulcio.pem -days 365 -extensions v3_req -extfile fulcio.cnf
-          cat fulcio.key > fulcio-bundle.pem && cat ca.pem >> fulcio-bundle.pem && cat fulcio.pem >> fulcio-bundle.pem
+          cat ca.pem > fulcio-chain.pem && cat fulcio.pem >> fulcio-chain.pem
         dir: src/certs
       - description: Create the TSA Key/Cert (based on the Fulcio Root for simplicity)
         cmd: |

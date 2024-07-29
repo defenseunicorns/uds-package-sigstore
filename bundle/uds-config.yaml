@@ -1,3 +1,5 @@
 variables:
   dev-openbao:
-    FULCIO_CA_BUNDLE: src/certs/fulcio-bundle.pem
+    FULCIO_PRIVATE_KEY: src/certs/fulcio.key
+  sigstore:
+    FULCIO_KMS_CERT_CHAIN: src/certs/fulcio-chain.pem
