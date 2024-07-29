@@ -21,4 +21,8 @@ packages:
         fulcio:
           values:
             - path: server.args.kms_resource
-              value: hashivault://transit/keys/fulcio-key
+              value: hashivault://fulcio-key
+            - path: server.env
+              value:
+                VAULT_ADDR: https://openbao.uds.dev
+                VAULT_TOKEN: root
