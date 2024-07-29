@@ -8,6 +8,8 @@ metadata:
 variables:
   - name: FULCIO_PRIVATE_KEY
     sensitive: true
+  - name: TSA_PRIVATE_KEY
+    sensitive: true
 
 components:
   - name: openbao
@@ -40,14 +42,15 @@ components:
                 ./zarf tools yq '[.items[] | select(.status.phase = "Running") | .metadata.name][0]'
             setVariables:
               - name: OPENBAO_POD
-          - description: Import the key material for Fulcio
+          - description: Setup OpenBao Transit Keystore
             cmd: |
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao secrets enable transit
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao read -field=public_key transit/wrapping_key > src/certs/wrapping.key.pem
-
+          - description: Import the key material for Fulcio
+            cmd: |
               openssl rand -out src/certs/aes.key.der 32
 
               openssl enc -id-aes256-wrap-pad \
@@ -71,5 +74,44 @@ components:
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
                 bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+          - description: Import the key material for Timestamp Authority
+            cmd: |
+              openssl rand -out src/certs/aes.key.der 32
+
+              openssl enc -id-aes256-wrap-pad \
+                -K "$(xxd -p < src/certs/aes.key.der | tr -d '\n')" \
+                -iv A65959A6 \
+                -in ${ZARF_VAR_TSA_PRIVATE_KEY}\
+                -out src/certs/tsa-wrapped.key.der
+
+              openssl pkeyutl \
+                -encrypt \
+                -in src/certs/aes.key.der \
+                -out src/certs/aes-wrapped.key.der \
+                -inkey src/certs/wrapping.key.pem \
+                -keyform PEM \
+                -pubin \
+                -pkeyopt rsa_padding_mode:oaep \
+                -pkeyopt rsa_oaep_md:sha256 \
+                -pkeyopt rsa_mgf1_md:sha256
+
+              TSA_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/tsa-wrapped.key.der | base64 -w 0)
+
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao write transit/keys/tsa-key/import ciphertext=$TSA_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+        onSuccess:
+          - description: Scrub intermediate key material
+            cmd: |
+              rm src/certs/aes.key.der
+              rm src/certs/aes-wrapped.key.der
+              rm src/certs/fulcio-wrapped.key.der
+              rm src/certs/tsa-wrapped.key.der
+        onFailure:
+          - description: Scrub intermediate key material
+            cmd: |
+              rm src/certs/aes.key.der
+              rm src/certs/aes-wrapped.key.der
+              rm src/certs/fulcio-wrapped.key.der
+              rm src/certs/tsa-wrapped.key.der
     images:
       - docker.io/openbao/openbao:2.0.0

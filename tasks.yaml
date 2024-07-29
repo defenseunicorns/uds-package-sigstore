@@ -28,6 +28,7 @@ tasks:
       - task: create-ss-package
       - task: dependencies:create
       - task: create:test-bundle
+      - task: dependencies:certs
 
   - name: create-ss-latest-release-bundle
     description: Create UDS Sigstore bundle based on the latest release

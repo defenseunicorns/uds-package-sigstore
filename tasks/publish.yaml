@@ -17,6 +17,7 @@ tasks:
     actions:
       - task: dependencies:create
       - task: create:test-bundle
+      - task: dependencies:certs
       - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
       - task: test:all
