@@ -19,6 +19,7 @@ Fulcio acts as a Web PKI implementation that issues code signing certificates - 
 
 Fulcio uses Sigstore's [signature KMS package](https://github.com/sigstore/sigstore/tree/main/pkg/signature/kms) to connect to Key Management Services.  An example of configuring Helm overrides for OpenBao is below:
 
+`uds-bundle.yaml`
 ```yaml
     overrides:
       fulcio:
@@ -32,6 +33,13 @@ Fulcio uses Sigstore's [signature KMS package](https://github.com/sigstore/sigst
                 VAULT_TOKEN: root
 ```
 
+`uds-config.yaml`
+```yaml
+variables:
+  sigstore:
+    FULCIO_KMS_CERT_CHAIN: src/certs/fulcio.chain.pem
+```
+
 For AWS resources, IRSA is supported and the `kms_resource` would take the form: `awskms://<aws-endpoint-empty-string-if-na>/arn:aws:kms:us-east-1:000000000000:key/<aws-kms-key-id>`.
 
 > ![NOTE]
@@ -43,6 +51,7 @@ The Sigstore Timestamp Authority issues [RFC-3161](https://datatracker.ietf.org/
 
 TSA also uses Sigstore's [signature KMS package](https://github.com/sigstore/sigstore/tree/main/pkg/signature/kms) to connect to Key Management Services and an example of configuring Helm overrides for OpenBao is below:
 
+`uds-bundle.yaml`
 ```yaml
     overrides:
       tsa:
@@ -56,10 +65,18 @@ TSA also uses Sigstore's [signature KMS package](https://github.com/sigstore/sig
                 VAULT_TOKEN: root
 ```
 
+`uds-config.yaml`
+```yaml
+variables:
+  sigstore:
+    TSA_KMS_CERT_CHAIN: src/certs/tsa.chain.pem
+```
+
 ### `rekor`
 
-Rekor doesn't need certificates but does need a keypair to sign log entries with.  Rekor also uses Sigstore's [signature KMS package](https://github.com/sigstore/sigstore/tree/main/pkg/signature/kms) to connect to Key Management Services and an example of configuring Helm overrides for OpenBao is below:
+Rekor doesn't need certificates but does need a keypair to sign log entries with.  Rekor also uses Sigstore's [signature KMS package](https://github.com/sigstore/sigstore/tree/main/pkg/signature/kms) to connect to Key Management Services and an example for OpenBao is below:
 
+`uds-bundle.yaml`
 ```yaml
     overrides:
       rekor:
@@ -81,10 +98,21 @@ Rekor doesn't need certificates but does need a keypair to sign log entries with
                 - --search_index.storage_provider=redis
 ```
 
+`uds-config.yaml`
+```yaml
+variables:
+  sigstore:
+    REKOR_PUBLIC_KEY: src/certs/rekor.pub.pem
+```
+
 ### `ctlog`
 
-The Certificate Transparency Log doesn't need certificates but does need a keypair to sign log entries with.  It also [does not integrate with a KMS (yet)](https://github.com/google/certificate-transparency-go/issues/1056) so you'll need to provide it key separately.  Below is an example configuration:
+The Certificate Transparency Log doesn't need certificates but does need a keypair to sign log entries with.  It also [does not integrate with a KMS (yet)](https://github.com/google/certificate-transparency-go/issues/1056) so you'll need to provide it a key separately.  Below is an example configuration:
 
+`uds-config.yaml`
 ```yaml
-
+variables:
+  sigstore:
+    CTLOG_PRIVATE_KEY: src/certs/ctlog.key.pem
+    CTLOG_PUBLIC_KEY: src/certs/ctlog.pub.pem
 ```
