@@ -52,6 +52,12 @@ jobs:
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
           ghToken: ${{ secrets.GITHUB_TOKEN }}
 
+      # TODO: This is not needed once https://github.com/sigstore/helm-charts/pull/790 is merged
+      - name: Sigstore Helm Shim
+        run: |
+          uds zarf tools helm repo add sigstore https://sigstore.github.io/helm-charts
+          curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
+
       - name: Test
         uses: defenseunicorns/uds-common/.github/actions/test@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
         with:
