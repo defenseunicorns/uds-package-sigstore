@@ -38,4 +38,5 @@ tasks:
         cmd: |
           openssl genrsa -out rekor.key.pem 4096
           openssl rsa -in rekor.key.pem -out rekor.key.der -outform DER
+          openssl rsa -in rekor.key.pem -pubout > rekor.pub.pem
         dir: src/certs

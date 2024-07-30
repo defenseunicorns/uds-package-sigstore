@@ -4,6 +4,21 @@ metadata:
   description: "A bring-your-own TUF trust root"
   url: https://theupdateframework.io/
 
+
+variables:
+  - name: FULCIO_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+  - name: TSA_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+  - name: REKOR_PUBLIC_KEY
+    sensitive: true
+    type: file
+    autoIndent: true
+
 components:
   - name: tuf
     required: true

@@ -9,3 +9,11 @@ copySecretJob:
   imagePullPolicy: IfNotPresent
   serviceaccount: tuf-secret-copy-job
   backoffLimit: 6
+
+secrets:
+  fulcio: |
+    ###ZARF_VAR_FULCIO_KMS_CERT_CHAIN###
+  tsa: |
+    ###ZARF_VAR_TSA_KMS_CERT_CHAIN###
+  rekor: |
+    ###ZARF_VAR_REKOR_PUBLIC_KEY###

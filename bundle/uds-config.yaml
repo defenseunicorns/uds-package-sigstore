@@ -6,3 +6,4 @@ variables:
   sigstore:
     FULCIO_KMS_CERT_CHAIN: src/certs/fulcio.chain.pem
     TSA_KMS_CERT_CHAIN: src/certs/tsa.chain.pem
+    REKOR_PUBLIC_KEY: src/certs/rekor.pub.pem

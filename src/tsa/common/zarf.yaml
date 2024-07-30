@@ -4,10 +4,6 @@ metadata:
   description: "UDS Timestamp Authority Common"
   url: https://github.com/sigstore/helm-charts
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: tsa
     required: true
