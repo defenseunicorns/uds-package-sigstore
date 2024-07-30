@@ -57,6 +57,7 @@ jobs:
         run: |
           uds zarf tools helm repo add sigstore https://sigstore.github.io/helm-charts
           curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
+          gpg --export >~/.gnupg/pubring.gpg
 
       - name: Test
         uses: defenseunicorns/uds-common/.github/actions/test@91515ef86914334356c35ffb4b2c2c5fb4d19174 # v0.9.0
