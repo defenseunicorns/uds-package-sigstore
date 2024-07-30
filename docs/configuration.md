@@ -68,7 +68,7 @@ Rekor doesn't need certificates but does need a keypair to sign log entries with
             - path: server.signer
               value: hashivault://rekor-key
               # TODO: (@WSTARR) This is a fun "hack" of the upstream Helm Chart - after https://github.com/sigstore/helm-charts/pull/790 should work to resolve this upstream
-            - path: server.searchIndex.mysql.storageProvider
+            - path: server.searchIndex.storageProvider
               value: mysql
             - path: server.searchIndex.mysql.envCredentials
               value:
@@ -76,6 +76,9 @@ Rekor doesn't need certificates but does need a keypair to sign log entries with
                   value: https://openbao.uds.dev
                 - name: VAULT_TOKEN
                   value: root
+            - path: server.extraArgs
+              value:
+                - --search_index.storage_provider=redis
 ```
 
 ### `ctlog`

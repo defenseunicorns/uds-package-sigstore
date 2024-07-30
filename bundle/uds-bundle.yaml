@@ -52,6 +52,9 @@ packages:
                   value: https://openbao.uds.dev
                 - name: VAULT_TOKEN
                   value: root
+            - path: server.extraArgs
+              value:
+                - --search_index.storage_provider=redis
       tsa:
         uds-tsa-config:
           values:

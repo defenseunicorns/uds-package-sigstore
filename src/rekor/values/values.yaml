@@ -1,4 +1,6 @@
 server:
+  logging:
+    production: true
   ingress:
     enabled: false
   service:

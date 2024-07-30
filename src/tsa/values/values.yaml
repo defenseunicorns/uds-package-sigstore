@@ -1,4 +1,6 @@
 server:
+  logging:
+    production: true
   svcPort: 5555
   args:
     signer: kms
