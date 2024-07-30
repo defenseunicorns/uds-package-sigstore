@@ -40,3 +40,9 @@ tasks:
           openssl rsa -in rekor.key.pem -out rekor.key.der -outform DER
           openssl rsa -in rekor.key.pem -pubout > rekor.pub.pem
         dir: src/certs
+      - description: Create the CTLog Key
+        cmd: |
+          openssl genrsa -out ctlog.key.pem 4096
+          openssl rsa -in ctlog.key.pem -out ctlog.key.der -outform DER
+          openssl rsa -in ctlog.key.pem -pubout > ctlog.pub.pem
+        dir: src/certs

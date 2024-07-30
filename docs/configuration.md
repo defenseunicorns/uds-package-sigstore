@@ -83,7 +83,7 @@ Rekor doesn't need certificates but does need a keypair to sign log entries with
 
 ### `ctlog`
 
-The Certificate Transparency Log doesn't need certificates but does need a keypair to sign log entries with.  It also [does not integrate with a KMS (yet)](https://github.com/google/certificate-transparency-go/issues/1056) so you'll need to provide it keys separately.  Below is an example configuration:
+The Certificate Transparency Log doesn't need certificates but does need a keypair to sign log entries with.  It also [does not integrate with a KMS (yet)](https://github.com/google/certificate-transparency-go/issues/1056) so you'll need to provide it key separately.  Below is an example configuration:
 
 ```yaml
 

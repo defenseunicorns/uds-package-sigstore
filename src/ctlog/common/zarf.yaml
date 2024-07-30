@@ -4,10 +4,6 @@ metadata:
   description: "UDS Certificate Transparency Log Common"
   url: https://github.com/sigstore/helm-charts
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: ctlog
     required: true

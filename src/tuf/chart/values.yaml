@@ -1,15 +1,5 @@
 custom: []
 
-copySecretJob:
-  enabled: true
-  name: copy-secrets-job
-  registry: docker.io
-  repository: alpine/k8s
-  version: "1.29.4"
-  imagePullPolicy: IfNotPresent
-  serviceaccount: tuf-secret-copy-job
-  backoffLimit: 6
-
 secrets:
   fulcio: |
     ###ZARF_VAR_FULCIO_KMS_CERT_CHAIN###
@@ -17,3 +7,5 @@ secrets:
     ###ZARF_VAR_TSA_KMS_CERT_CHAIN###
   rekor: |
     ###ZARF_VAR_REKOR_PUBLIC_KEY###
+  ctlog: |
+    ###ZARF_VAR_CTLOG_PUBLIC_KEY###

@@ -4,10 +4,6 @@ metadata:
   description: "UDS Trillian Common"
   url: https://github.com/sigstore/helm-charts
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: trillian
     required: true

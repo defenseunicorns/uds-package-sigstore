@@ -4,10 +4,6 @@ metadata:
   description: "UDS Rekor Common"
   url: https://github.com/sigstore/helm-charts/tree/main/charts/rekor
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: rekor
     required: true

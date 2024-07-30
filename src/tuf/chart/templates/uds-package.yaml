@@ -18,22 +18,6 @@ spec:
       - direction: Egress
         remoteGenerated: IntraNamespace
 
-      # allow tuf jobs to pull information from k8s
-      - direction: Egress
-        remoteGenerated: KubeAPI
-
-      # allow tuf to talk to the tsa server
-      - direction: Egress
-        remoteNamespace: tsa-system
-        remoteSelector:
-          app.kubernetes.io/name: tsa
-
-      # allow tuf to talk to the rekor server
-      - direction: Egress
-        remoteNamespace: rekor-system
-        remoteSelector:
-          app.kubernetes.io/name: rekor
-
       # Custom rules to allow clients to connect
     {{- range .Values.custom }}
       - direction: {{ .direction }}
