@@ -36,6 +36,14 @@ components:
                 name: openbao
                 namespace: dev-openbao
                 condition: "'{.status.phase}'=Ready"
+          - description: OpenBao to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Pod
+                name: app.kubernetes.io/name=openbao
+                namespace: dev-openbao
+                condition: Ready
           - description: Lookup the openbao pod name
             cmd: |
               ./zarf tools kubectl get pod -n dev-openbao -l "app.kubernetes.io/name=openbao" -o json | \

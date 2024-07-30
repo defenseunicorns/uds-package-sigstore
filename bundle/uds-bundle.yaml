@@ -1,7 +1,7 @@
 kind: UDSBundle
 metadata:
   name: sigstore-test
-  description: A UDS bundle for deploying Sigstore and on a development cluster
+  description: A UDS bundle for deploying Sigstore on a development cluster
   # x-release-please-start-version
   version: 0.1.0
   # x-release-please-end
