@@ -27,6 +27,11 @@ components:
           - values/values.yaml
     actions:
       onDeploy:
+        before:
+          # If there was a previous OpenBao install clear its secrets
+          - description: Clear OpenBao of any secrets
+            cmd: |
+              ./zarf tools kubectl delete pod -n dev-openbao -l "app.kubernetes.io/name=openbao" || true
         after:
           - description: Validate OpenBao Package
             maxTotalSeconds: 300
