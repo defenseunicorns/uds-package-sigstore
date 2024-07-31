@@ -3,6 +3,7 @@ server:
     registry: gcr.io
     repository: projectsigstore/fulcio
     version: v1.5.1
+
 createcerts:
   image:
     registry: ghcr.io
