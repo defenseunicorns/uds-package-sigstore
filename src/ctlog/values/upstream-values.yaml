@@ -2,13 +2,13 @@ server:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/ct_server
-    version: v0.6.17
+    version: v0.7.5
 
 createtree:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createtree
-    version: v0.6.17
+    version: v0.7.5
 
 createctconfig:
   initContainerImage:
@@ -20,4 +20,4 @@ createctconfig:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createctconfig
-    version: v0.6.17
+    version: v0.7.5

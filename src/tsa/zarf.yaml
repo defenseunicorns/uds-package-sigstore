@@ -22,4 +22,4 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - ghcr.io/sigstore/timestamp-server:v1.2.1
+      - ghcr.io/sigstore/timestamp-server:v1.2.2

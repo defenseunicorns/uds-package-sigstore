@@ -16,7 +16,7 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - docker.io/curlimages/curl:8.5.0
+      - docker.io/curlimages/curl:8.9.1
       - docker.io/valkey/valkey:7.2.5-alpine3.19
       - gcr.io/projectsigstore/rekor-server:v1.3.6
-      - ghcr.io/sigstore/scaffolding/createtree:v0.6.17
+      - ghcr.io/sigstore/scaffolding/createtree:v0.7.5

@@ -20,4 +20,4 @@ createtree:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createtree
-    version: v0.6.17
+    version: v0.7.5
