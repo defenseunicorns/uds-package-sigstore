@@ -17,9 +17,10 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: fulcio
-        version: 2.3.20
+        version: 2.4.0
         namespace: fulcio-system
-        url: oci://ghcr.io/sigstore/helm-charts/fulcio
+        url: https://github.com/Racer159/sigstore-helm-charts.git@674cab3eeec83ee2100ffb718d0a34a6d0062c74
+        gitPath: charts/fulcio
         valuesFiles:
           - ../values/values.yaml
     actions:

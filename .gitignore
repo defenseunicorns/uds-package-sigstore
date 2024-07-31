@@ -6,3 +6,8 @@ build/
 *.tar.zst
 zarf-sbom
 tmp/
+*.crt
+*.key
+*.csr
+*.pem
+*.der

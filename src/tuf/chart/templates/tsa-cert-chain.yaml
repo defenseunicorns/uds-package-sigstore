@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tsa-cert-chain
+  namespace: {{ .Release.Namespace }}
+stringData:
+  cert-chain: |-
+    {{ .Values.secrets.tsa | indent 4 }}

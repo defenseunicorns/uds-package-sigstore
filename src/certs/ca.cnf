@@ -1,0 +1,21 @@
+# Fulcio Root Cert OpenSSL config following https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md#root-certificate
+
+[ req ]
+distinguished_name = req_distinguished_name
+x509_extensions	= v3_ca
+prompt = no
+
+[ req_distinguished_name ]
+countryName            = US                # MAY specify additional subject fields
+stateOrProvinceName    = Colorado          # MAY specify additional subject fields
+localityName           = Colorado Springs  # MAY specify additional subject fields
+organizationName       = Defense Unicorns  # MUST specify org name
+organizationalUnitName = Development Only  # MAY specify additional subject fields
+commonName             = Doug Unicorn      # MUST specify common name
+
+[ v3_ca ]
+subjectKeyIdentifier   = hash                             # MUST specify SKID
+authorityKeyIdentifier = keyid:always                     # MAY specify AKID (MUST equal SKID)
+basicConstraints       = critical, CA:true                # MUST specify CA:true
+keyUsage               = critical, cRLSign, keyCertSign   # MUST specify cRLSign/keyCertSign - MUST NOT specify additional usages
+# extendedKeyUsage - MUST NOT specify extended usages

@@ -4,10 +4,6 @@ metadata:
   description: "UDS TUF Common"
   url: https://github.com/sigstore/helm-charts/tree/main/charts/tuf
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
-
 components:
   - name: tuf
     required: true

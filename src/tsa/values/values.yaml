@@ -1,8 +1,11 @@
 server:
+  logging:
+    production: true
   svcPort: 5555
   args:
-    # TODO (@WSTARR): TEMPORARY TESTING ONLY
-    signer: memory
+    signer: kms
+    cert_chain: |-
+      ###ZARF_VAR_TSA_KMS_CERT_CHAIN###
   service:
     ports:
       - name: http

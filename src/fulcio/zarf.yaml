@@ -4,6 +4,12 @@ metadata:
   description: "A certificate authority that issues code-signing certificates bound to an OIDC identity"
   url: https://github.com/sigstore/helm-charts/tree/main/charts/fulcio
 
+variables:
+  - name: FULCIO_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+
 components:
   - name: fulcio
     required: true
@@ -17,4 +23,3 @@ components:
           - ./values/upstream-values.yaml
     images:
       - gcr.io/projectsigstore/fulcio:v1.4.5
-      - ghcr.io/sigstore/scaffolding/createcerts:v0.6.17

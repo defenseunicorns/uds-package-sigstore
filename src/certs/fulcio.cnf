@@ -1,0 +1,20 @@
+# Fulcio Intermediate Cert OpenSSL config following https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md#intermediate-certificate
+
+[ req ]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[ req_distinguished_name ]
+countryName            = US                # MAY specify additional subject fields
+stateOrProvinceName    = Colorado          # MAY specify additional subject fields
+localityName           = Colorado Springs  # MAY specify additional subject fields
+organizationName       = Defense Unicorns  # MUST specify org name
+organizationalUnitName = Development Only  # MAY specify additional subject fields
+commonName             = Fulcio            # MUST specify common name
+
+[ v3_req ]
+subjectKeyIdentifier   = hash                             # MUST specify SKID
+basicConstraints       = critical, CA:true, pathlen:0     # MUST specify CA:true - SHOULD specify pathlen:0
+keyUsage               = critical, cRLSign, keyCertSign   # MUST specify cRLSign/keyCertSign - MUST NOT specify additional usages
+extendedKeyUsage       = critical, codeSigning            # MUST specify codeSigning - MUST NOT specify additional extended usages

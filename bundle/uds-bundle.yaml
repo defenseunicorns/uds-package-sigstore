@@ -1,15 +1,78 @@
 kind: UDSBundle
 metadata:
   name: sigstore-test
-  description: A UDS bundle for deploying Sigstore and on a development cluster
+  description: A UDS bundle for deploying Sigstore on a development cluster
   # x-release-please-start-version
   version: 0.1.0
   # x-release-please-end
 
 packages:
+  - name: dev-openbao
+    path: ../
+    ref: 0.1.0
+
   - name: sigstore
     path: ../
     # x-release-please-start-version
     ref: 0.1.0
     # x-release-please-end
     overrides:
+      fulcio:
+        fulcio:
+          values:
+            - path: server.args.kms_resource
+              value: hashivault://fulcio-key
+            - path: server.env
+              value:
+                VAULT_ADDR: https://openbao.uds.dev
+                VAULT_TOKEN: root
+      rekor:
+        uds-rekor-config:
+          values:
+            - path: custom
+              value:
+                - direction: Egress
+                  remoteNamespace: istio-tenant-gateway
+                  remoteSelector:
+                    app: tenant-ingressgateway
+                  selector:
+                    app.kubernetes.io/name: rekor
+                  port: 443
+                  description: "UDS Tenant Gateway Services (openbao)"
+        rekor:
+          values:
+            - path: server.signer
+              value: hashivault://rekor-key
+              # TODO: (@WSTARR) This is a fun "hack" of the upstream Helm Chart - after https://github.com/sigstore/helm-charts/pull/790 should work to resolve this upstream
+            - path: server.searchIndex.storageProvider
+              value: mysql
+            - path: server.searchIndex.mysql.envCredentials
+              value:
+                - name: VAULT_ADDR
+                  value: https://openbao.uds.dev
+                - name: VAULT_TOKEN
+                  value: root
+            - path: server.extraArgs
+              value:
+                - --search_index.storage_provider=redis
+      tsa:
+        uds-tsa-config:
+          values:
+            - path: custom
+              value:
+                - direction: Egress
+                  remoteNamespace: istio-tenant-gateway
+                  remoteSelector:
+                    app: tenant-ingressgateway
+                  selector:
+                    app.kubernetes.io/name: tsa
+                  port: 443
+                  description: "UDS Tenant Gateway Services (openbao)"
+        tsa:
+          values:
+            - path: server.args.kms_key_resource
+              value: hashivault://tsa-key
+            - path: server.env
+              value:
+                VAULT_ADDR: https://openbao.uds.dev
+                VAULT_TOKEN: root

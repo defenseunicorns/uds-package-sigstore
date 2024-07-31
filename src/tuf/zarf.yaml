@@ -4,6 +4,25 @@ metadata:
   description: "A bring-your-own TUF trust root"
   url: https://theupdateframework.io/
 
+
+variables:
+  - name: FULCIO_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+  - name: TSA_KMS_CERT_CHAIN
+    sensitive: true
+    type: file
+    autoIndent: true
+  - name: REKOR_PUBLIC_KEY
+    sensitive: true
+    type: file
+    autoIndent: true
+  - name: CTLOG_PUBLIC_KEY
+    sensitive: true
+    type: file
+    autoIndent: true
+
 components:
   - name: tuf
     required: true
@@ -12,12 +31,8 @@ components:
     import:
       path: common
     charts:
-      - name: uds-tuf-config
-        valuesFiles:
-          - ./values/upstream-values-config.yaml
       - name: tuf
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - docker.io/alpine/k8s:1.29.4
       - ghcr.io/sigstore/scaffolding/server:v0.6.17

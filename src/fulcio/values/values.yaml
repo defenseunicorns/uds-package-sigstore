@@ -1,4 +1,6 @@
 server:
+  logging:
+    production: true
   ingress:
     http:
       enabled: false
@@ -16,6 +18,10 @@ server:
         port: 2112
         protocol: TCP
         targetPort: 2112
+  args:
+    certificateAuthority: kmsca
+    kms_cert_chain: |-
+      ###ZARF_VAR_FULCIO_KMS_CERT_CHAIN###
 
 config:
   contents:
@@ -30,6 +36,9 @@ namespace:
   create: true
 
 forceNamespace: fulcio-system
+
+createcerts:
+  enabled: false
 
 ctlog:
   enabled: false

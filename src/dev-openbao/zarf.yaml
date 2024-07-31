@@ -1,0 +1,157 @@
+kind: ZarfPackageConfig
+metadata:
+  name: dev-openbao
+  description: "A key management service that can run locally"
+  url: https://github.com/openbao/openbao
+  version: 0.1.0
+
+variables:
+  - name: FULCIO_PRIVATE_KEY
+    sensitive: true
+  - name: TSA_PRIVATE_KEY
+    sensitive: true
+
+components:
+  - name: openbao
+    required: true
+    charts:
+      - name: uds-openbao-config
+        namespace: dev-openbao
+        version: 0.1.0
+        localPath: chart
+      - name: openbao
+        version: 0.4.0
+        namespace: dev-openbao
+        url: https://openbao.github.io/openbao-helm
+        valuesFiles:
+          - values/values.yaml
+    actions:
+      onDeploy:
+        before:
+          # If there was a previous OpenBao install clear its secrets
+          - description: Clear OpenBao of any secrets
+            cmd: |
+              ./zarf tools kubectl delete pod -n dev-openbao -l "app.kubernetes.io/name=openbao" || true
+        after:
+          - description: Validate OpenBao Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: openbao
+                namespace: dev-openbao
+                condition: "'{.status.phase}'=Ready"
+          - description: OpenBao to be Healthy
+            maxTotalSeconds: 90
+            wait:
+              cluster:
+                kind: Pod
+                name: app.kubernetes.io/name=openbao
+                namespace: dev-openbao
+                condition: Ready
+          - description: Lookup the openbao pod name
+            cmd: |
+              ./zarf tools kubectl get pod -n dev-openbao -l "app.kubernetes.io/name=openbao" -o json | \
+                ./zarf tools yq '[.items[] | select(.status.phase = "Running") | .metadata.name][0]'
+            setVariables:
+              - name: OPENBAO_POD
+          - description: Setup OpenBao Transit Keystore
+            cmd: |
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao secrets enable transit
+
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao read -field=public_key transit/wrapping_key > src/certs/wrapping.key.pem
+          - description: Import the key material for Fulcio
+            cmd: |
+              openssl rand -out src/certs/aes.key.der 32
+
+              openssl enc -id-aes256-wrap-pad \
+                -K "$(xxd -p < src/certs/aes.key.der | tr -d '\n')" \
+                -iv A65959A6 \
+                -in ${ZARF_VAR_FULCIO_PRIVATE_KEY}\
+                -out src/certs/fulcio-wrapped.key.der
+
+              openssl pkeyutl \
+                -encrypt \
+                -in src/certs/aes.key.der \
+                -out src/certs/aes-wrapped.key.der \
+                -inkey src/certs/wrapping.key.pem \
+                -keyform PEM \
+                -pubin \
+                -pkeyopt rsa_padding_mode:oaep \
+                -pkeyopt rsa_oaep_md:sha256 \
+                -pkeyopt rsa_mgf1_md:sha256
+
+              FULCIO_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/fulcio-wrapped.key.der | base64 -w 0)
+
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+          - description: Import the key material for Timestamp Authority
+            cmd: |
+              openssl rand -out src/certs/aes.key.der 32
+
+              openssl enc -id-aes256-wrap-pad \
+                -K "$(xxd -p < src/certs/aes.key.der | tr -d '\n')" \
+                -iv A65959A6 \
+                -in ${ZARF_VAR_TSA_PRIVATE_KEY}\
+                -out src/certs/tsa-wrapped.key.der
+
+              openssl pkeyutl \
+                -encrypt \
+                -in src/certs/aes.key.der \
+                -out src/certs/aes-wrapped.key.der \
+                -inkey src/certs/wrapping.key.pem \
+                -keyform PEM \
+                -pubin \
+                -pkeyopt rsa_padding_mode:oaep \
+                -pkeyopt rsa_oaep_md:sha256 \
+                -pkeyopt rsa_mgf1_md:sha256
+
+              TSA_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/tsa-wrapped.key.der | base64 -w 0)
+
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao write transit/keys/tsa-key/import ciphertext=$TSA_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+          - description: Import the key material for Rekor
+            cmd: |
+              openssl rand -out src/certs/aes.key.der 32
+
+              openssl enc -id-aes256-wrap-pad \
+                -K "$(xxd -p < src/certs/aes.key.der | tr -d '\n')" \
+                -iv A65959A6 \
+                -in ${ZARF_VAR_REKOR_PRIVATE_KEY}\
+                -out src/certs/rekor-wrapped.key.der
+
+              openssl pkeyutl \
+                -encrypt \
+                -in src/certs/aes.key.der \
+                -out src/certs/aes-wrapped.key.der \
+                -inkey src/certs/wrapping.key.pem \
+                -keyform PEM \
+                -pubin \
+                -pkeyopt rsa_padding_mode:oaep \
+                -pkeyopt rsa_oaep_md:sha256 \
+                -pkeyopt rsa_mgf1_md:sha256
+
+              REKOR_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/rekor-wrapped.key.der | base64 -w 0)
+
+              ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
+                bao write transit/keys/rekor-key/import ciphertext=$REKOR_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+        onSuccess:
+          - description: Scrub intermediate key material
+            cmd: |
+              rm src/certs/aes.key.der
+              rm src/certs/aes-wrapped.key.der
+              rm src/certs/fulcio-wrapped.key.der
+              rm src/certs/tsa-wrapped.key.der
+              rm src/certs/rekor-wrapped.key.der
+        onFailure:
+          - description: Scrub intermediate key material
+            cmd: |
+              rm src/certs/aes.key.der
+              rm src/certs/aes-wrapped.key.der
+              rm src/certs/fulcio-wrapped.key.der
+              rm src/certs/tsa-wrapped.key.der
+              rm src/certs/rekor-wrapped.key.der
+    images:
+      - docker.io/openbao/openbao:2.0.0

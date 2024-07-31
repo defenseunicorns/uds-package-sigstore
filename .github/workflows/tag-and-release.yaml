@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Create release tag
         id: tag
-        uses: google-github-actions/release-please-action@e4dc86ba9405554aeba3c6bb2d169500e7d3b4ee # v4.1.1
+        uses: googleapis/release-please-action@7987652d64b4581673a76e33ad5e98e3dd56832f # v4.1.3
       - id: release-flag
         run: echo "release_created=${{ steps.tag.outputs.release_created || false }}" >> $GITHUB_OUTPUT
 
@@ -45,6 +45,13 @@ jobs:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
           ghToken: ${{ secrets.GITHUB_TOKEN }}
+
+      # TODO: This is not needed once https://github.com/sigstore/helm-charts/pull/790 is merged
+      - name: Sigstore Helm Shim
+        run: |
+          uds zarf tools helm repo add sigstore https://sigstore.github.io/helm-charts
+          curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
+          gpg --export >~/.gnupg/pubring.gpg
 
       - name: Build Package
         run: uds run -f tasks/publish.yaml build-package --set FLAVOR=${{ matrix.flavor }} --no-progress

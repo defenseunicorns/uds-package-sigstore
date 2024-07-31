@@ -1,0 +1,48 @@
+tasks:
+  - name: create
+    description: Create the dependency openbao package
+    inputs:
+      options:
+        description: For setting create time variables and flags
+      architecture:
+        description: The architecture of the package to create
+        default: ${UDS_ARCH}
+    actions:
+      - cmd: ./uds zarf package create src/dev-openbao/ --confirm --no-progress --architecture=${{ .inputs.architecture }} --skip-sbom ${{ .inputs.options }}
+
+  - name: certs
+    description: Create the certificates needed to initialize Fulcio / TSA
+    actions:
+      - description: Create the CA Root
+        cmd: |
+          openssl genrsa -out ca.key.pem 4096
+          openssl req -x509 -new -nodes -key ca.key.pem -sha256 -days 1825 -out ca.crt.pem -config ca.cnf
+        dir: src/certs
+      - description: Create the Fulcio Intermediate CA
+        cmd: |
+          openssl genrsa -out fulcio.key.pem 4096
+          openssl req -new -key fulcio.key.pem -sha256 -out fulcio.csr -config fulcio.cnf
+          openssl x509 -req -in fulcio.csr -CA ca.crt.pem -CAkey ca.key.pem -CAcreateserial -out fulcio.crt.pem -days 365 -extensions v3_req -extfile fulcio.cnf
+          cat fulcio.crt.pem > fulcio.chain.pem && cat ca.crt.pem >> fulcio.chain.pem
+          openssl rsa -in fulcio.key.pem -out fulcio.key.der -outform DER
+        dir: src/certs
+      - description: Create the TSA Key/Cert
+        cmd: |
+          openssl genrsa -out tsa.key.pem 4096
+          openssl req -new -key tsa.key.pem -sha256 -out tsa.csr -config tsa.cnf
+          openssl x509 -req -in tsa.csr -CA ca.crt.pem -CAkey ca.key.pem -CAcreateserial -out tsa.crt.pem -days 365 -extensions v3_req -extfile tsa.cnf
+          cat tsa.crt.pem > tsa.chain.pem && cat ca.crt.pem >> tsa.chain.pem
+          openssl rsa -in tsa.key.pem -out tsa.key.der -outform DER
+        dir: src/certs
+      - description: Create the Rekor Key
+        cmd: |
+          openssl genrsa -out rekor.key.pem 4096
+          openssl rsa -in rekor.key.pem -out rekor.key.der -outform DER
+          openssl rsa -in rekor.key.pem -pubout > rekor.pub.pem
+        dir: src/certs
+      - description: Create the CTLog Key
+        cmd: |
+          openssl genrsa -out ctlog.key.pem 4096
+          openssl rsa -in ctlog.key.pem -out ctlog.key.der -outform DER
+          openssl rsa -in ctlog.key.pem -pubout > ctlog.pub.pem
+        dir: src/certs

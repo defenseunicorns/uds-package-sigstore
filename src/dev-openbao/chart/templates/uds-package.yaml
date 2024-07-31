@@ -1,29 +1,26 @@
 apiVersion: uds.dev/v1alpha1
 kind: Package
 metadata:
-  name: tuf
-  namespace: {{ .Release.Nameapace }}
+  name: openbao
+  namespace: {{ .Release.Namespace }}
 spec:
   network:
     expose:
-      - service: tuf-server
-        selector:
-          app.kubernetes.io/name: tuf
+      - service: openbao
+        podLabels:
+          app.kubernetes.io/name: openbao
         gateway: tenant
-        host: tuf
-        port: 8080
+        host: openbao
+        port: 8200
     allow:
       - direction: Ingress
         remoteGenerated: IntraNamespace
+
       - direction: Egress
         remoteGenerated: IntraNamespace
 
-      # allow tuf to pull information from k8s
-      - direction: Egress
-        remoteGenerated: KubeAPI
-
-      # Custom rules to allow clients to connect
-    {{- range .Values.custom }}
+      # Custom rules for unanticipated scenarios
+      {{- range .Values.custom }}
       - direction: {{ .direction }}
         selector:
           {{ .selector | toYaml | nindent 10 }}
@@ -36,4 +33,4 @@ spec:
         remoteGenerated: {{ .remoteGenerated }}
         {{- end }}
         description: {{ .description }}
-    {{- end }}
+      {{- end }}
