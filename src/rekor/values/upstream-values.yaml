@@ -2,7 +2,8 @@ initContainerImage:
   curl:
     registry: docker.io
     repository: curlimages/curl
-    version: "8.5.0"
+    # renovate: datasource=docker depName=curlimages/curl versioning=semver
+    version: "8.9.1"
 
 redis:
   image:
@@ -20,4 +21,4 @@ createtree:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createtree
-    version: v0.6.17
+    version: v0.7.5
