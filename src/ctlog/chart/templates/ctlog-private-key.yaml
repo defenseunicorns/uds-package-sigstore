@@ -6,3 +6,4 @@ metadata:
 stringData:
   private: |-
     {{ .Values.privateKey | indent 4 }}
+  password: {{ .Values.keyPassword }}

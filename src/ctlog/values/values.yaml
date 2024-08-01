@@ -3,6 +3,7 @@ createctconfig:
   logPrefix: uds-sigstore
   pubkeysecret: "ctlog-public-key"
   privateSecret: "ctlog-private-key"
+  privateKeyPasswordSecretName: "ctlog-private-key"
 
 service:
   type: ClusterIP

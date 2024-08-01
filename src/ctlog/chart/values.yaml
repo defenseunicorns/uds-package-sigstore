@@ -1,5 +1,7 @@
 custom: []
 
+keyPassword: ""
+
 privateKey: |
   ###ZARF_VAR_CTLOG_PRIVATE_KEY###
 

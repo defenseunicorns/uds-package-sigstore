@@ -18,9 +18,9 @@ packages:
     # x-release-please-end
     overrides:
       ctlog:
-        ctlog:
+        uds-ctlog-config:
           values:
-            - path: createctconfig.privateKeyPasswordSecretName
+            - path: keyPassword
               value: not_for_production_use
       fulcio:
         fulcio:
