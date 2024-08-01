@@ -8,10 +8,11 @@ spec:
     - name: Sigstore Login
       clientId: sigstore
       redirectUris:
-        # - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
-        - "http://pepr.cannot.do.localhost.uds.dev/auth"
-      secret: "sigstore"
-      serviceAccountsEnabled: true
+        - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
+      secret: ""
+      standardFlowEnabled: false
+      publicClient: true
+      oauth2DeviceAuthorizationGrantEnabled: true
   network:
     expose:
       - service: fulcio-server
