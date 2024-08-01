@@ -26,6 +26,10 @@ server:
 config:
   contents:
     OIDCIssuers:
+      https://sso.###ZARF_VAR_DOMAIN###:
+        IssuerURL: https://sso.###ZARF_VAR_DOMAIN###
+        ClientID: sigstore
+        Type: email
       https://gitlab.###ZARF_VAR_DOMAIN###:
         IssuerURL: https://gitlab.###ZARF_VAR_DOMAIN###
         ClientID: sigstore
