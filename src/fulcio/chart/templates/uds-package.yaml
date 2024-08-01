@@ -7,12 +7,10 @@ spec:
   sso:
     - name: Sigstore Login
       clientId: sigstore
-      redirectUris:
-        - "http://localhost:*" # TODO: (@WSTARR) <- manually update the client redirect and origin urls to this
-      secret: ""
       standardFlowEnabled: false
       publicClient: true
-      oauth2DeviceAuthorizationGrantEnabled: true
+      attributes:
+        oauth2.device.authorization.grant.enabled: "true"
   network:
     expose:
       - service: fulcio-server
