@@ -1,6 +1,8 @@
 createctconfig:
   fulcioURL: http://fulcio-server.fulcio-system.svc:5555
   logPrefix: uds-sigstore
+  pubkeysecret: "ctlog-public-key"
+  privateSecret: "ctlog-private-key"
 
 service:
   type: ClusterIP

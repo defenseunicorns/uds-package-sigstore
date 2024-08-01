@@ -27,3 +27,9 @@ tasks:
       - task: rekor:ingress
       - task: tsa:ingress
       - task: tuf:ingress
+
+  - name: signing
+    actions:
+      - cmd: step oauth --provider https://sso.uds.dev/realms/uds/ --client-id=sigstore --console-flow device  --bare --oidc
+      - cmd: cosign initialize --root https://tuf.uds.dev/root.json --mirror https://tuf.uds.dev
+      - cmd: cosign sign-blob --fulcio-url=https://fulcio.uds.dev --fulcio-auth-flow=device --rekor-url=https://rekor.uds.dev --oidc-issuer=https://sso.uds.dev/realms/uds version.txt

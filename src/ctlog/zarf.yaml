@@ -9,6 +9,10 @@ variables:
     sensitive: true
     type: file
     autoIndent: true
+  - name: CTLOG_PUBLIC_KEY
+    sensitive: true
+    type: file
+    autoIndent: true
 
 components:
   - name: ctlog

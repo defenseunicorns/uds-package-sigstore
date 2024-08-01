@@ -17,6 +17,11 @@ packages:
     ref: 0.1.0
     # x-release-please-end
     overrides:
+      ctlog:
+        ctlog:
+          values:
+            - path: createctconfig.privateKeyPasswordSecretName
+              value: not_for_production_use
       fulcio:
         fulcio:
           values:

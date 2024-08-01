@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ctlog-private-key
+  name: ctlog-public-key
   namespace: {{ .Release.Namespace }}
 stringData:
-  private: |-
-    {{ .Values.privateKey | indent 4 }}
+  public: |-
+    {{ .Values.publicKey | indent 4 }}

@@ -2,3 +2,6 @@ custom: []
 
 privateKey: |
   ###ZARF_VAR_CTLOG_PRIVATE_KEY###
+
+publicKey: |
+  ###ZARF_VAR_CTLOG_PUBLIC_KEY###
