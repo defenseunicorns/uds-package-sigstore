@@ -5,7 +5,7 @@ includes:
   - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/lint.yaml
   - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/pull.yaml
   - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/setup.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/ allow-uds-core-snapshots/tasks/setup.yaml
 
 tasks:
   - name: default
@@ -13,6 +13,9 @@ tasks:
     actions:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
+        with:
+          version: "2024-08-02-434f349"
+          snapshots: "true"
       - task: deploy:test-bundle
 
   - name: create-ss-package
@@ -53,6 +56,9 @@ tasks:
     actions:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
+        with:
+          version: "2024-08-02-434f349"
+          snapshots: "true"
       - task: deploy:test-bundle
       - task: test:all
 
@@ -61,6 +67,9 @@ tasks:
     actions:
       - task: create-ss-latest-release-bundle
       - task: setup:k3d-test-cluster
+        with:
+          version: "2024-08-02-434f349"
+          snapshots: "true"
       - task: deploy:test-bundle
       - task: create-ss-test-bundle
       - task: deploy:test-bundle
