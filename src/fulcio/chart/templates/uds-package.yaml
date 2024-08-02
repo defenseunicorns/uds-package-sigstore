@@ -7,7 +7,7 @@ spec:
   sso:
     - name: Sigstore Login
       clientId: sigstore
-      redirectUris: [""]
+      redirectUris: [""] # TODO: @WSTARR - remove this once UDS core is updated.
       standardFlowEnabled: false
       publicClient: true
       attributes:
