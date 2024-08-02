@@ -11,3 +11,7 @@ tmp/
 *.csr
 *.pem
 *.der
+*.tmp.*
+
+**node_modules
+.playwright
