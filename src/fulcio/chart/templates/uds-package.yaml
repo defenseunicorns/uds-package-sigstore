@@ -7,7 +7,6 @@ spec:
   sso:
     - name: Sigstore Login
       clientId: sigstore
-      redirectUris: [""]
       standardFlowEnabled: false
       publicClient: true
       attributes:
