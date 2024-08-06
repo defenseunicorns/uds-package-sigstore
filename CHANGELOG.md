@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0-alpha](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0...v0.1.1) (2024-08-06)
+## [0.1.0-alpha](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0...v0.1.0-alpha) (2024-08-06)
 
 
 ### Features
