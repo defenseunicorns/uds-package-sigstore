@@ -14,7 +14,7 @@ tasks:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
         with:
-          version: "2024-08-02-434f349"
+          version: "2024-08-06-9075436"
           snapshots: "true"
       - task: deploy:test-bundle
 
@@ -57,7 +57,7 @@ tasks:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
         with:
-          version: "2024-08-02-434f349"
+          version: "2024-08-06-9075436"
           snapshots: "true"
       - task: deploy:test-bundle
       - task: test:all
@@ -68,7 +68,7 @@ tasks:
       - task: create-ss-latest-release-bundle
       - task: setup:k3d-test-cluster
         with:
-          version: "2024-08-02-434f349"
+          version: "2024-08-06-9075436"
           snapshots: "true"
       - task: deploy:test-bundle
       - task: create-ss-test-bundle

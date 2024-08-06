@@ -19,6 +19,9 @@ tasks:
       - task: create:test-bundle
       - task: dependencies:certs
       - task: setup:k3d-test-cluster
+        with:
+          version: "2024-08-06-9075436"
+          snapshots: "true"
       - task: deploy:test-bundle
       - task: test:all
 
