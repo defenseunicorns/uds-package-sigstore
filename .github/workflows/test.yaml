@@ -47,11 +47,8 @@ jobs:
 
       - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
       - name: Install Step CLI
-        env:
-          # renovate: datasource=github-tags depName=defenseunicorns/uds-cli versioning=semver
-          STEP_VERSION: v0.27.2
         run: |
-          wget https://dl.smallstep.com/cli/docs-cli-install/${STEP_VERSION}/step-cli_amd64.deb
+          wget https://github.com/smallstep/cli/releases/download/v0.27.2/step-cli_amd64.deb
           sudo dpkg -i step-cli_amd64.deb
 
       - name: Environment setup
