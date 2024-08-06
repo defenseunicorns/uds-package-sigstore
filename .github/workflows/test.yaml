@@ -34,7 +34,7 @@ permissions:
 jobs:
   test:
     name: ${{ matrix.type }} ${{ matrix.flavor }}
-    runs-on: uds-swf-ubuntu-big-boy-4-core # TODO: (@WSTARR) Replace once repo is made public
+    runs-on: ubuntu-latest
     timeout-minutes: 25
     strategy:
       matrix:
