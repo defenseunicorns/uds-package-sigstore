@@ -1,10 +1,10 @@
 includes:
   - test: ./test.yaml
   - dependencies: ./dependencies.yaml
-  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/create.yaml
-  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/deploy.yaml
-  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/publish.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/setup.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/create.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/deploy.yaml
+  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/publish.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/setup.yaml
 
 tasks:
   - name: build-package
@@ -19,9 +19,6 @@ tasks:
       - task: create:test-bundle
       - task: dependencies:certs
       - task: setup:k3d-test-cluster
-        with:
-          version: "2024-08-06-9075436"
-          snapshots: "true"
       - task: deploy:test-bundle
       - task: setup:create-doug-user
       - task: test:all
