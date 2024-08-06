@@ -23,7 +23,7 @@ tasks:
       - task: setup:create-doug-user
       - task: test:all
 
-  - name: package
+  - name: publish-package
     description: Build and publish the package
     actions:
       - description: Publish the packages
