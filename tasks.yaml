@@ -13,9 +13,6 @@ tasks:
     actions:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
-        with:
-          version: "2024-08-06-9075436"
-          snapshots: "true"
       - task: deploy:test-bundle
 
   - name: create-ss-package
