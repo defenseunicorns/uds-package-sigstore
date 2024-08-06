@@ -11,8 +11,7 @@
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true,
       "draft": false,
-      "versioning": "prerelease",
-      "prerelease-type": "uds",
+      "versioning": "default",
       "extra-files": [
         "bundle/uds-bundle.yaml",
         "tasks/publish.yaml",
