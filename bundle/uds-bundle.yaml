@@ -17,6 +17,11 @@ packages:
     ref: 0.1.0
     # x-release-please-end
     overrides:
+      ctlog:
+        uds-ctlog-config:
+          values:
+            - path: keyPassword
+              value: not_for_production_use
       fulcio:
         fulcio:
           values:

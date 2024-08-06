@@ -86,7 +86,7 @@ components:
               FULCIO_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/fulcio-wrapped.key.der | base64 -w 0)
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+                bao write transit/keys/fulcio-key/import ciphertext=$FULCIO_CIPHER_TEXT hash_function=SHA256 type=ecdsa-p256
           - description: Import the key material for Timestamp Authority
             cmd: |
               openssl rand -out src/certs/aes.key.der 32
@@ -111,7 +111,7 @@ components:
               TSA_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/tsa-wrapped.key.der | base64 -w 0)
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao write transit/keys/tsa-key/import ciphertext=$TSA_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+                bao write transit/keys/tsa-key/import ciphertext=$TSA_CIPHER_TEXT hash_function=SHA256 type=ecdsa-p256
           - description: Import the key material for Rekor
             cmd: |
               openssl rand -out src/certs/aes.key.der 32
@@ -136,7 +136,7 @@ components:
               REKOR_CIPHER_TEXT=$(cat src/certs/aes-wrapped.key.der src/certs/rekor-wrapped.key.der | base64 -w 0)
 
               ./zarf tools kubectl exec -n dev-openbao ${ZARF_VAR_OPENBAO_POD} -- \
-                bao write transit/keys/rekor-key/import ciphertext=$REKOR_CIPHER_TEXT hash_function=SHA256 type=rsa-4096
+                bao write transit/keys/rekor-key/import ciphertext=$REKOR_CIPHER_TEXT hash_function=SHA256 type=ecdsa-p256
         onSuccess:
           - description: Scrub intermediate key material
             cmd: |

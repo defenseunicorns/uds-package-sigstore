@@ -45,8 +45,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
+      - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
+      - name: Install Step CLI
+        run: |
+          wget https://github.com/smallstep/cli/releases/download/v0.27.2/step-cli_amd64.deb
+          sudo dpkg -i step-cli_amd64.deb
+
       - name: Environment setup
-        uses: defenseunicorns/uds-common/.github/actions/setup@e7c0643d3f9d74ce49c7386b48964d2be646d726 # v0.10.0
+        uses: defenseunicorns/uds-common/.github/actions/setup@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
         with:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
@@ -60,17 +66,17 @@ jobs:
           gpg --export >~/.gnupg/pubring.gpg
 
       - name: Test
-        uses: defenseunicorns/uds-common/.github/actions/test@e7c0643d3f9d74ce49c7386b48964d2be646d726 # v0.10.0
+        uses: defenseunicorns/uds-common/.github/actions/test@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
         with:
           flavor: ${{ matrix.flavor }}
           type: ${{ matrix.type }}
 
       - name: Debug Output
         if: ${{ always() }}
-        uses: defenseunicorns/uds-common/.github/actions/debug-output@e7c0643d3f9d74ce49c7386b48964d2be646d726 # v0.10.0
+        uses: defenseunicorns/uds-common/.github/actions/debug-output@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
 
       - name: Save logs
         if: always()
-        uses: defenseunicorns/uds-common/.github/actions/save-logs@e7c0643d3f9d74ce49c7386b48964d2be646d726 # v0.10.0
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
         with:
           suffix: ${{ matrix.type }}-${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}

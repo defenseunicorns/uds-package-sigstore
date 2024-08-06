@@ -11,6 +11,7 @@ tasks:
     actions:
       - task: health-check
       - task: ingress
+      - task: signing
 
   - name: health-check
     actions:
@@ -27,3 +28,23 @@ tasks:
       - task: rekor:ingress
       - task: tsa:ingress
       - task: tuf:ingress
+
+  - name: signing
+    actions:
+      - cmd: step oauth --provider https://sso.uds.dev/realms/uds/ --client-id=sigstore --console-flow device --bare --oidc 2> device-code.tmp.txt 1> out.tmp.txt &
+        dir: tests
+      - cmd: sleep 1 && tail -n 1 device-code.tmp.txt
+        dir: tests
+      - cmd: |
+          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE=$(tail -n 1 device-code.tmp.txt) mcr.microsoft.com/playwright:v1.43.1-jammy sh -c " \
+            cd app && \
+            npm ci && \
+            npx playwright test \
+            "
+        dir: tests
+      - cmd: cosign initialize --root https://tuf.uds.dev/root.json --mirror https://tuf.uds.dev
+        dir: tests
+      - cmd: sleep 10 && head -c -1 out.tmp.txt > secret.tmp.txt
+        dir: tests
+      - cmd: cosign sign-blob -y --fulcio-url=https://fulcio.uds.dev --rekor-url=https://rekor.uds.dev --identity-token=secret.tmp.txt data/blob.txt
+        dir: tests

@@ -19,7 +19,7 @@ components:
       - name: fulcio
         version: 2.4.0
         namespace: fulcio-system
-        url: https://github.com/Racer159/sigstore-helm-charts.git@674cab3eeec83ee2100ffb718d0a34a6d0062c74
+        url: https://github.com/Racer159/sigstore-helm-charts.git@refs/heads/feat/fulcio-env-gcp
         gitPath: charts/fulcio
         valuesFiles:
           - ../values/values.yaml

@@ -10,6 +10,9 @@ Network policies are controlled via the configuration charts in accordance with 
 
 Sigstore's stack has several components that need to be wired up with keys and/or certificates as described below.  This repository also contains `openssl` example configuration files under `src/certs` along with a helper task to generate example certificates by running `uds run dependencies:certs`.
 
+> ![CAUTION]
+> You may be tempted to create RSA keys for these components but these are NOT supported fully by Sigstore yet: https://github.com/sigstore/sigstore/issues/1528. ECDSA keys are what are generated and tested against in this repository.
+
 ### `fulcio`
 
 Fulcio acts as a Web PKI implementation that issues code signing certificates - as such it needs to operate as a certificate authority and be provided with appropriate keys and certificates.  An example [intermediate certificate configuration file](../src/certs/fulcio.cnf) is used within this repository for testing alongside an example [root certificate configuration file](../src/certs/ca.cnf) that each meet Sigstore's [specification for Fulcio certificates](https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md).

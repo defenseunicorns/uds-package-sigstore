@@ -1,11 +1,11 @@
 includes:
   - test: ./tasks/test.yaml
   - dependencies: ./tasks/dependencies.yaml
-  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/create.yaml
-  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/lint.yaml
-  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/pull.yaml
-  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.10.0/tasks/setup.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/create.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/lint.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/pull.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/deploy.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/setup.yaml
 
 tasks:
   - name: default
@@ -54,6 +54,7 @@ tasks:
       - task: create-ss-test-bundle
       - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
+      - task: setup:create-doug-user
       - task: test:all
 
   - name: test-upgrade
@@ -64,4 +65,5 @@ tasks:
       - task: deploy:test-bundle
       - task: create-ss-test-bundle
       - task: deploy:test-bundle
+      - task: setup:create-doug-user
       - task: test:all
