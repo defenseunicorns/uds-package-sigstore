@@ -23,6 +23,7 @@ tasks:
           version: "2024-08-06-9075436"
           snapshots: "true"
       - task: deploy:test-bundle
+      - task: setup:create-doug-user
       - task: test:all
 
   - name: package

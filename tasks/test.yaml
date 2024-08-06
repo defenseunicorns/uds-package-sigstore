@@ -34,8 +34,7 @@ tasks:
       - cmd: step oauth --provider https://sso.uds.dev/realms/uds/ --client-id=sigstore --console-flow device --bare --oidc 2> device-code.tmp.txt 1> out.tmp.txt &
         dir: tests
       - cmd: |
-          sleep 1 && \
-          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE=$(tail -n 1 device-code.tmp.txt) mcr.microsoft.com/playwright:v1.43.1-jammy sh -c " \
+          sleep 1 && docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE=$(tail -n 1 device-code.tmp.txt) mcr.microsoft.com/playwright:v1.43.1-jammy sh -c " \
             cd app && \
             npm ci && \
             npx playwright test \
