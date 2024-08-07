@@ -78,4 +78,4 @@ jobs:
         if: always()
         uses: defenseunicorns/uds-common/.github/actions/save-logs@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
         with:
-          suffix: ${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}
+          suffix: ${{ matrix.flavor }}-${{ matrix.architecture }}-${{ github.run_id }}-${{ github.run_attempt }}
