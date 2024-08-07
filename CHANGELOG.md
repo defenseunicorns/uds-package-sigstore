@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0-alpha](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0...v0.1.0-alpha) (2024-08-06)
+## [0.1.0-alpha.1](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha...v0.1.0-alpha.1) (2024-08-06)
 
 
 ### Features
@@ -16,4 +16,6 @@
 * **deps:** update sigstore support dependencies ([cb1c691](https://github.com/defenseunicorns/uds-package-sigstore/commit/cb1c691f6082d07bff9dbcdaf1c8575c394c2d27))
 * **deps:** update support-deps to v4 ([6d7cbc5](https://github.com/defenseunicorns/uds-package-sigstore/commit/6d7cbc538931ac4dce89ce2b89f7591be53c80c7))
 * document the usage of a KMS with the sigstore stack ([ffe6cc8](https://github.com/defenseunicorns/uds-package-sigstore/commit/ffe6cc83054be3c4a9a4446c65bc9a8b5ad0782c))
+* fix publish task ([bfdf476](https://github.com/defenseunicorns/uds-package-sigstore/commit/bfdf476393cf5af9e3b94c7f0412c7add41b740e))
+* **main:** release 0.1.1 ([40f3fda](https://github.com/defenseunicorns/uds-package-sigstore/commit/40f3fdaa5ba278c2e92614cbf3ecb51b2cf0b810))
 * update runner to 'ubuntu-latest' ([2e007a3](https://github.com/defenseunicorns/uds-package-sigstore/commit/2e007a3848f2467e2c6985b2f474368450a8bed5))
