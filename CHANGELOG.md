@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-alpha.2](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha.1...v0.1.0-alpha.2) (2024-08-07)
+
+
+### Miscellaneous
+
+* update README with arm64 notice ([540626f](https://github.com/defenseunicorns/uds-package-sigstore/commit/540626f55ea070e0f4a8a67f9c1b6e68f00546c1))
+
 ## [0.1.0-alpha.1](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha...v0.1.0-alpha.1) (2024-08-06)
 
 
