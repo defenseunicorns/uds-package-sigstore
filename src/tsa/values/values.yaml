@@ -16,6 +16,9 @@ server:
         port: 2112
         protocol: TCP
         targetPort: 2112
+  ingress:
+    http:
+      enabled: false
 
 namespace:
   name: tsa-system
