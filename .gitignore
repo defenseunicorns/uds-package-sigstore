@@ -9,6 +9,7 @@ tmp/
 *.crt
 *.key
 *.csr
+*.srl
 *.pem
 *.der
 *.tmp.*

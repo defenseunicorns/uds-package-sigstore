@@ -5,6 +5,11 @@ mysql:
         port: 3306
         protocol: TCP
         targetPort: 3306
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    fsGroup: 1000
 
 # the trillian mysql image is already configured with the DB
 # this job does not wait for mysql to come up so will just enter an error state
