@@ -52,7 +52,7 @@ jobs:
           sudo dpkg -i step-cli_amd64.deb
 
       - name: Environment setup
-        uses: defenseunicorns/uds-common/.github/actions/setup@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
+        uses: defenseunicorns/uds-common/.github/actions/setup@97fc3a00fb2b9897316131cd210026691e160d5a # v1.1.1
         with:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
@@ -66,17 +66,17 @@ jobs:
           gpg --export >~/.gnupg/pubring.gpg
 
       - name: Test
-        uses: defenseunicorns/uds-common/.github/actions/test@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
+        uses: defenseunicorns/uds-common/.github/actions/test@97fc3a00fb2b9897316131cd210026691e160d5a # v1.1.1
         with:
           flavor: ${{ matrix.flavor }}
           type: ${{ matrix.type }}
 
       - name: Debug Output
         if: ${{ always() }}
-        uses: defenseunicorns/uds-common/.github/actions/debug-output@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
+        uses: defenseunicorns/uds-common/.github/actions/debug-output@97fc3a00fb2b9897316131cd210026691e160d5a # v1.1.1
 
       - name: Save logs
         if: always()
-        uses: defenseunicorns/uds-common/.github/actions/save-logs@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@97fc3a00fb2b9897316131cd210026691e160d5a # v1.1.1
         with:
           suffix: ${{ matrix.type }}-${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}
