@@ -56,11 +56,18 @@ tasks:
           gpg --export >~/.gnupg/pubring.gpg
 
   # TODO: This should be added to uds-common
-  - name: install-step
+  - name: install-deps
     actions:
       - cmd: |
-          wget https://github.com/smallstep/cli/releases/download/v0.27.2/step-cli_amd64.deb
-          sudo dpkg -i step-cli_amd64.deb
+          # renovate: datasource=github-tags depName=sigstore/cosign versioning=semver
+          COSIGN_VERSION="2.4.1"
+          curl -L "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${UDS_ARCH}" -o cosign
+          sudo install -m 0755 cosign /usr/local/bin/cosign
+
+          # renovate: datasource=github-tags depName=smallstep/cli versioning=semver
+          STEP_VERSION="0.27.5"
+          curl -L "https://github.com/smallstep/cli/releases/download/v${STEP_VERSION}/step-cli_${STEP_VERSION}-1_${UDS_ARCH}.deb" -o step-cli.deb
+          sudo dpkg -i step-cli.deb
 
 # CI will execute the following (via uds-common/.github/workflows/callable-[test|publish].yaml) so they need to be here with these names
 
@@ -68,7 +75,7 @@ tasks:
     description: Test the health of a Sigstore deployment
     actions:
       - task: helm-shim
-      - task: install-step
+      - task: install-deps
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
@@ -78,7 +85,7 @@ tasks:
     description: Test an upgrade from the latest released package to the current branch
     actions:
       - task: helm-shim
-      - task: install-step
+      - task: install-deps
       - task: upgrade:create-latest-tag-bundle
         with:
           dep_commands: ./uds run dependencies:create
@@ -95,7 +102,7 @@ tasks:
     description: Build and publish the packages
     actions:
       - task: helm-shim
-      - task: install-step
+      - task: install-deps
       - task: actions:determine-arch
       - task: create:package
 
