@@ -1,0 +1,47 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+component-definition:
+  uuid: 1ac07512-ae38-429f-a38c-add8b42160f6
+  metadata:
+    title: UDS Package Sigstore
+    last-modified: "2024-10-21T14:28:56Z"
+    version: "20241021"
+    oscal-version: 1.1.2
+    parties:
+      - uuid: f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+        type: organization
+        name: Defense Unicorns
+        links:
+          - href: https://defenseunicorns.com
+            rel: website
+  components:
+    - uuid: 7e8ddff2-9c81-4523-a3f9-3baa9f51d550
+      type: software
+      title: Sigstore
+      description: |
+        Sigstore is an open source project that simplifies and automates the process of signing and verifying software components, using Cosign and a transparency log.
+      purpose: Provides a keyless signing infrastructure for signing software artifacts and attestations
+      responsible-roles:
+        - role-id: provider
+          party-uuids:
+            - f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+      control-implementations:
+        - uuid: d2afb4c4-2cd8-5305-a6cc-d1bc7b388d0c
+          source: https://raw.githubusercontent.com/GSA/fedramp-automation/93ca0e20ff5e54fc04140613476fba80f08e3c7d/dist/content/rev5/baselines/json/FedRAMP_rev5_HIGH-baseline-resolved-profile_catalog.json
+          description: Controls implemented by Sigstore for inheritance by applications that adheres to FedRAMP High Baseline and DoD IL 6.
+          implemented-requirements:
+            - uuid: 45d74a7f-3475-4a28-b51d-16b54fe3571e
+              control-id: cm-3.6
+              description: >-
+                Sigstore utilizes the underlying Istio for FIPS encryption in transit and leverages encrypted Storage Class(es) for storage.
+            - uuid: 218711be-eeb2-4349-8ca3-12d1506d8d47
+              control-id: sc-13
+              description: >-
+                Sigstore utilizes the underlying Istio for FIPS encryption in transit and leverages encrypted Storage Class(es) for storage.
+  back-matter:
+    resources:
+      - uuid: a1653957-8aa7-48cc-99a4-fbfec03ff2b6
+        title: UDS Package Sigstore
+        rlinks:
+          - href: https://github.com/defenseunicorns/uds-package-sigstore
