@@ -46,11 +46,21 @@ tasks:
       - task: create:test-bundle
       - task: deploy:test-bundle
 
+  # TODO: This is not needed once https://github.com/sigstore/helm-charts/pull/790 is merged
+  - name: helm-shim
+    description: Shim the Helm GPG Key to build the chart from source
+    actions:
+      - cmd: |
+          ./uds zarf tools helm repo add sigstore https://sigstore.github.io/helm-charts
+          curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
+          gpg --export >~/.gnupg/pubring.gpg
+
 # CI will execute the following (via uds-common/.github/workflows/callable-[test|publish].yaml) so they need to be here with these names
 
   - name: test-install
     description: Test the health of a Sigstore deployment
     actions:
+      - task: helm-shim
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
@@ -59,6 +69,7 @@ tasks:
   - name: test-upgrade
     description: Test an upgrade from the latest released package to the current branch
     actions:
+      - task: helm-shim
       - task: upgrade:create-latest-tag-bundle
         with:
           dep_commands: ./uds run dependencies:create
@@ -74,6 +85,7 @@ tasks:
   - name: publish-release
     description: Build and publish the packages
     actions:
+      - task: helm-shim
       - task: actions:determine-arch
       - task: create:package
 
