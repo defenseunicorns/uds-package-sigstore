@@ -55,12 +55,20 @@ tasks:
           curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
           gpg --export >~/.gnupg/pubring.gpg
 
+  # TODO: This should be added to uds-common
+  - name: install-step
+    actions:
+      - cmd: |
+          wget https://github.com/smallstep/cli/releases/download/v0.27.2/step-cli_amd64.deb
+          sudo dpkg -i step-cli_amd64.deb
+
 # CI will execute the following (via uds-common/.github/workflows/callable-[test|publish].yaml) so they need to be here with these names
 
   - name: test-install
     description: Test the health of a Sigstore deployment
     actions:
       - task: helm-shim
+      - task: install-step
       - task: create-dev-package
       - task: setup:k3d-test-cluster
         with:
@@ -72,6 +80,7 @@ tasks:
     description: Test an upgrade from the latest released package to the current branch
     actions:
       - task: helm-shim
+      - task: install-step
       - task: upgrade:create-latest-tag-bundle
         with:
           dep_commands: ./uds run dependencies:create
@@ -90,6 +99,7 @@ tasks:
     description: Build and publish the packages
     actions:
       - task: helm-shim
+      - task: install-step
       - task: actions:determine-arch
       - task: create:package
 
