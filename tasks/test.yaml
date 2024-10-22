@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 includes:
   - ctlog: ../src/ctlog/tasks.yaml
   - fulcio: ../src/fulcio/tasks.yaml
@@ -36,7 +39,7 @@ tasks:
       - cmd: sleep 1 && tail -n 1 device-code.tmp.txt
         dir: tests
       - cmd: |
-          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE=$(tail -n 1 device-code.tmp.txt) mcr.microsoft.com/playwright:v1.43.1-jammy sh -c " \
+          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE="$(tail -n 1 device-code.tmp.txt)" mcr.microsoft.com/playwright:v1.43.1-jammy sh -c " \
             cd app && \
             npm ci && \
             npx playwright test \

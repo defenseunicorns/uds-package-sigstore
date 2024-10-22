@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 tasks:
   - name: create
     description: Create the dependency openbao package
@@ -9,6 +12,7 @@ tasks:
         default: ${UDS_ARCH}
     actions:
       - cmd: ./uds zarf package create src/dev-openbao/ --confirm --no-progress --architecture=${{ .inputs.architecture }} --skip-sbom ${{ .inputs.options }}
+      - task: certs
 
   - name: certs
     description: Create the certificates needed to initialize Fulcio / TSA

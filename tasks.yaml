@@ -1,69 +1,112 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 includes:
-  - test: ./tasks/test.yaml
   - dependencies: ./tasks/dependencies.yaml
-  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/create.yaml
-  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/lint.yaml
-  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/pull.yaml
-  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.11.1/tasks/setup.yaml
+  - test: ./tasks/test.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/create.yaml
+  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/publish.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/lint.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/pull.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/deploy.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/setup.yaml
+  - actions: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/actions.yaml
+  - badge: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/badge.yaml
+  - upgrade: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/upgrade.yaml
+  - compliance: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.2/tasks/compliance.yaml
 
 tasks:
   - name: default
-    description: Create K3D Cluster with UDS-Core-Istio + Sigstore
+    description: Create K3D Cluster with UDS-Core (Dev) and Sigstore
     actions:
-      - task: create-ss-test-bundle
+      - task: create-dev-package
       - task: setup:k3d-test-cluster
-      - task: deploy:test-bundle
+      - task: create-deploy-test-bundle
 
-  - name: create-ss-package
-    description: Create UDS Sigstore Package
+  - name: create-dev-package
+    description: Create the Sigstore package
     actions:
       - task: create:package
         with:
           options: "--skip-sbom"
 
-  - name: create-ss-test-bundle
-    description: Create UDS Sigstore bundle
+  - name: create-deploy-test-bundle
+    description: Test and validate cluster is deployed with Sigstore
     actions:
-      - task: create-ss-package
       - task: dependencies:create
       - task: create:test-bundle
-      - task: dependencies:certs
-
-  - name: create-ss-latest-release-bundle
-    description: Create UDS Sigstore bundle based on the latest release
-    actions:
-      - task: pull:latest-package-release
-        with:
-          spoof_release: "true"
-      - task: dependencies:create
-      - task: create:test-bundle
-
-  - name: dev
-    description: Deploy Sigstore on existing cluster
-    actions:
-      - task: create-ss-package
-      - task: create-ss-test-bundle
-      - task: deploy:test-bundle
-
-# CI will execute the following (via uds-common/.github/actions/test) so they need to be here with these names
-
-  - name: test-package
-    description: Test the health of a Sigstore deployment
-    actions:
-      - task: create-ss-test-bundle
-      - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
       - task: setup:create-doug-user
       - task: test:all
+
+  - name: dev
+    description: Create and deploy the bundle against an existing cluster
+    actions:
+      - task: create-dev-package
+      - task: create:test-bundle
+      - task: deploy:test-bundle
+
+  # TODO: This is not needed once https://github.com/sigstore/helm-charts/pull/790 is merged
+  - name: helm-shim
+    description: Shim the Helm GPG Key to build the chart from source
+    actions:
+      - cmd: |
+          ./uds zarf tools helm repo add sigstore https://sigstore.github.io/helm-charts
+          curl https://raw.githubusercontent.com/sigstore/helm-charts/main/security/pubkey.gpg | gpg --import --batch
+          gpg --export >~/.gnupg/pubring.gpg
+
+# CI will execute the following (via uds-common/.github/workflows/callable-[test|publish].yaml) so they need to be here with these names
+
+  - name: ci-setup
+    actions:
+      - task: helm-shim
+      - cmd: |
+          # renovate: datasource=github-tags depName=sigstore/cosign versioning=semver
+          COSIGN_VERSION="2.4.1"
+          curl -L "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-${UDS_ARCH}" -o cosign
+          sudo install -m 0755 cosign /usr/local/bin/cosign
+
+          # renovate: datasource=github-tags depName=smallstep/cli versioning=semver
+          STEP_VERSION="0.27.5"
+          curl -L "https://github.com/smallstep/cli/releases/download/v${STEP_VERSION}/step-cli_${STEP_VERSION}-1_${UDS_ARCH}.deb" -o step-cli.deb
+          sudo dpkg -i step-cli.deb
+
+  - name: test-install
+    description: Test the health of a Sigstore deployment
+    actions:
+      - task: create-dev-package
+      - task: setup:k3d-test-cluster
+      - task: create-deploy-test-bundle
+      - task: compliance:validate
 
   - name: test-upgrade
     description: Test an upgrade from the latest released package to the current branch
     actions:
-      - task: create-ss-latest-release-bundle
+      - task: upgrade:create-latest-tag-bundle
+        with:
+          dep_commands: ./uds run dependencies:create
       - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
-      - task: create-ss-test-bundle
-      - task: deploy:test-bundle
-      - task: setup:create-doug-user
-      - task: test:all
+      - task: compliance:validate
+      - task: create-dev-package
+      - task: create-deploy-test-bundle
+      - task: compliance:validate
+      - task: compliance:evaluate
+
+  - name: publish-release
+    description: Build and publish the packages
+    actions:
+      - task: actions:determine-arch
+      - task: create:package
+
+      - task: setup:k3d-test-cluster
+        if: ${{ or (ne .variables.FLAVOR "upstream") (ne .variables.ARCH "arm64") }}
+      - task: create-deploy-test-bundle
+        if: ${{ or (ne .variables.FLAVOR "upstream") (ne .variables.ARCH "arm64") }}
+
+      - description: Publish the package
+        task: publish:package
+        with:
+          # x-release-please-start-version
+          version: "0.1.0-alpha.1"
+          # x-release-please-end

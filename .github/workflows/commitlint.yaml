@@ -1,4 +1,7 @@
-name: Metadata
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+name: PR Title Check
 
 on:
   pull_request:
@@ -7,5 +10,4 @@ on:
 
 jobs:
   validate:
-    name: Validate
-    uses: defenseunicorns/uds-common/.github/workflows/commitlint.yaml@2536a06363d50a160421105b2df86aacf69388c1 # v0.11.1
+    uses: defenseunicorns/uds-common/.github/workflows/callable-commitlint.yaml@c52077c870a576d01f169f96d74d1b393c6488ba # v1.1.2
