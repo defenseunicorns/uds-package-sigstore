@@ -15,7 +15,7 @@ This package is designed for use as part of a [UDS Software Factory](https://git
 
 ## Prerequisites
 
-This package requires a Kubernetes Cluster providing a Storage Class that has [UDS Core](https://github.com/defenseunicorns/uds-core) installed into it.  You can learn more about configuring this package in the [configuration documentation](./docs/configuration.md)
+This package requires a Kubernetes Cluster providing a Storage Class that has [UDS Core](https://github.com/defenseunicorns/uds-core) installed into it along with the appropriate certificates for Sigstore's components.  You can learn more about configuring this package in the [configuration documentation](./docs/configuration.md)
 
 ## Releases
 
