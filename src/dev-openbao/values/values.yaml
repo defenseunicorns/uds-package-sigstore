@@ -8,7 +8,7 @@ server:
   image:
     registry: "docker.io"
     repository: "openbao/openbao"
-    tag: "2.0.0"
+    tag: "2.0.2"
 
   # Run OpenBao in "dev" mode. This requires no further setup, no state management,
   # and no initialization. This is useful for experimenting with Vault without

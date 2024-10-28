@@ -20,6 +20,6 @@ components:
           - ./values/upstream-values.yaml
     images:
       - cgr.dev/chainguard/netcat:latest
-      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
-      - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.0
-      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.0
+      - gcr.io/trillian-opensource-ci/db_server:v1.6.1
+      - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.1
+      - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.1

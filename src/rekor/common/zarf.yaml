@@ -16,7 +16,7 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: rekor
-        version: 1.4.7
+        version: 1.5.1
         namespace: rekor-system
         url: oci://ghcr.io/sigstore/helm-charts/rekor
         valuesFiles:
