@@ -1,0 +1,26 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+initContainerImage:
+  netcat:
+    registry: cgr.dev
+    repository: chainguard/netcat
+    version: latest
+
+mysql:
+  image:
+    registry: gcr.io
+    repository: trillian-opensource-ci/db_server
+    version: v1.5.3
+
+logServer:
+  image:
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/trillian-logserver-fips
+    version: "1.6.1"
+
+logSigner:
+  image:
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/trillian-logsigner-fips
+    version: "1.6.1"

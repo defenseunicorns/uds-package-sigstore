@@ -33,3 +33,19 @@ components:
       - ghcr.io/sigstore/scaffolding/createctconfig:v0.7.13
       - ghcr.io/sigstore/scaffolding/createtree:v0.7.13
       - ghcr.io/sigstore/scaffolding/ct_server:v0.7.13
+
+  - name: ctlog
+    required: true
+    only:
+      flavor: unicorn
+    import:
+      path: common
+    charts:
+      - name: ctlog
+        valuesFiles:
+          - ./values/unicorn-values.yaml
+    images:
+      - cgr.dev/du-uds-defenseunicorns/curl-fips:8.10.1
+      - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-ctlog-createctconfig-fips:0.7.11
+      - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-trillian-createtree-fips:0.7.13
+      - cgr.dev/du-uds-defenseunicorns/ctlog-trillian-ctserver-fips:1.2.1

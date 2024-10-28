@@ -3,6 +3,6 @@
 
 server:
   image:
-    registry: gcr.io
-    repository: projectsigstore/fulcio
-    version: v1.6.5
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/fulcio-fips
+    version: "1.6.5"

@@ -39,3 +39,16 @@ components:
           - ./values/upstream-values.yaml
     images:
       - ghcr.io/sigstore/scaffolding/server:v0.7.13
+
+  - name: tuf
+    required: true
+    only:
+      flavor: unicorn
+    import:
+      path: common
+    charts:
+      - name: tuf
+        valuesFiles:
+          - ./values/unicorn-values.yaml
+    images:
+      - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-tuf-server-fips:0.7.13
