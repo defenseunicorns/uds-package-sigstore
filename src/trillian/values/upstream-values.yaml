@@ -11,7 +11,7 @@ mysql:
   image:
     registry: gcr.io
     repository: trillian-opensource-ci/db_server
-    version: v1.6.1
+    version: v1.5.3
 
 logServer:
   image:
