@@ -16,7 +16,7 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: trillian
-        version: 0.2.26
+        version: 0.2.28
         namespace: trillian-system
         url: oci://ghcr.io/sigstore/helm-charts/trillian
         valuesFiles:
