@@ -22,6 +22,6 @@ createctconfig:
       version: "8.10.1"
 
   image:
-    registry: cgr.dev
-    repository: du-uds-defenseunicorns/sigstore-scaffolding-ctlog-createctconfig-fips
-    version: "0.7.11"
+    registry: ghcr.io
+    repository: sigstore/scaffolding/createctconfig
+    version: v0.7.13
