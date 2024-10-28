@@ -16,7 +16,7 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: tuf
-        version: 0.1.16
+        version: 0.1.19
         namespace: tuf-system
         url: oci://ghcr.io/sigstore/helm-charts/tuf
         valuesFiles:

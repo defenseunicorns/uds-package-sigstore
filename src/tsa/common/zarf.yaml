@@ -16,7 +16,7 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: tsa
-        version: 1.0.5
+        version: 1.0.6
         namespace: tsa-system
         url: oci://ghcr.io/sigstore/helm-charts/tsa
         valuesFiles:

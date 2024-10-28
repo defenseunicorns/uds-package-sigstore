@@ -16,7 +16,7 @@ components:
         version: 0.1.0
         localPath: ../chart
       - name: ctlog
-        version: 0.2.55
+        version: 0.2.57
         namespace: ctlog-system
         url: oci://ghcr.io/sigstore/helm-charts/ctlog
         valuesFiles:

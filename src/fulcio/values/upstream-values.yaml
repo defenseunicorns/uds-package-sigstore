@@ -5,10 +5,10 @@ server:
   image:
     registry: gcr.io
     repository: projectsigstore/fulcio
-    version: v1.5.1
+    version: v1.6.5
 
 createcerts:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createcerts
-    version: v0.7.5
+    version: v0.7.13

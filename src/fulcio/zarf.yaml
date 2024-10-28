@@ -25,4 +25,4 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - gcr.io/projectsigstore/fulcio:v1.5.1
+      - gcr.io/projectsigstore/fulcio:v1.6.5

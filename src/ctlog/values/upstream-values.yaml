@@ -5,13 +5,13 @@ server:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/ct_server
-    version: v0.7.5
+    version: v0.7.13
 
 createtree:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createtree
-    version: v0.7.5
+    version: v0.7.13
 
 createctconfig:
   initContainerImage:
@@ -19,9 +19,9 @@ createctconfig:
       registry: docker.io
       repository: curlimages/curl
       # renovate: datasource=docker depName=curlimages/curl versioning=semver
-      version: "8.9.1"
+      version: "8.10.1"
 
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createctconfig
-    version: v0.7.5
+    version: v0.7.13
