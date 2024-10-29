@@ -12,7 +12,6 @@ tasks:
         default: ${UDS_ARCH}
     actions:
       - cmd: ./uds zarf package create src/dev-openbao/ --confirm --no-progress --architecture=${{ .inputs.architecture }} --skip-sbom ${{ .inputs.options }}
-      - task: certs
 
   - name: certs
     description: Create the certificates needed to initialize Fulcio / TSA
