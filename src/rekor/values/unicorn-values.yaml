@@ -3,9 +3,9 @@
 
 initContainerImage:
   curl:
-    registry: cgr.dev
-    repository: du-uds-defenseunicorns/curl-fips
-    # renovate: datasource=docker depName=cgr.dev/du-uds-defenseunicorns/curl-fips versioning=semver
+    registry: docker.io
+    repository: curlimages/curl
+    # renovate: datasource=docker depName=curlimages/curl versioning=semver
     version: "8.10.1"
 
 redis:
