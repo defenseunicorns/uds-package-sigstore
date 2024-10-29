@@ -23,6 +23,10 @@ components:
           - ../values/values.yaml
     actions:
       onDeploy:
+        before:
+          # delete the old jobs so that an upgrade will work
+          - cmd: ./zarf tools kubectl delete jobs -n ctlog-system ctlog-createctconfig || true
+          - cmd: ./zarf tools kubectl delete jobs -n ctlog-system ctlog-createtree || true
         after:
           - description: Validate CtLog Package
             maxTotalSeconds: 300
