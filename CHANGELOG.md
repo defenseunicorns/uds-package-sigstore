@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.0-alpha.2](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha.1...v0.1.0-alpha.2) (2024-10-29)
+
+
+### Features
+
+* add unicorn flavor ([#34](https://github.com/defenseunicorns/uds-package-sigstore/issues/34)) ([e175c32](https://github.com/defenseunicorns/uds-package-sigstore/commit/e175c324023afc7c239ca27ed1067d32c617a255))
+
+
+### Bug Fixes
+
+* update required values discovered during deployment ([3272f44](https://github.com/defenseunicorns/uds-package-sigstore/commit/3272f44f1a3a5b5dbe1705f5376f10ea9bd7f13d))
+
+
+### Miscellaneous
+
+* bronze badge and streamline repo and GH permissions ([6afaaf9](https://github.com/defenseunicorns/uds-package-sigstore/commit/6afaaf9a4a1b1ca39a090c00668a82ecb9338968))
+* **deps:** update sigstore package dependencies ([#20](https://github.com/defenseunicorns/uds-package-sigstore/issues/20)) ([fc95ada](https://github.com/defenseunicorns/uds-package-sigstore/commit/fc95ada4e645b683a2469846854d6e1b624e5651))
+* **deps:** update sigstore support dependencies ([#28](https://github.com/defenseunicorns/uds-package-sigstore/issues/28)) ([49bca2c](https://github.com/defenseunicorns/uds-package-sigstore/commit/49bca2c7f7e80060e5968f9204894aa51e6cbec7))
+* **deps:** update support-deps to v1 ([43335ef](https://github.com/defenseunicorns/uds-package-sigstore/commit/43335efe0f757e98596611113be70f74098f36cb))
+* update README with arm64 notice ([540626f](https://github.com/defenseunicorns/uds-package-sigstore/commit/540626f55ea070e0f4a8a67f9c1b6e68f00546c1))
+
 ## [0.1.0-alpha.1](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha...v0.1.0-alpha.1) (2024-08-06)
 
 
