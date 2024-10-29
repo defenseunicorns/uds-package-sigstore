@@ -23,6 +23,9 @@ components:
           - ../values/values.yaml
     actions:
       onDeploy:
+        before:
+          # delete the old job so that an upgrade will work
+          - cmd: ./zarf tools kubectl delete jobs -n rekor-system rekor-createtree || true
         after:
           - description: Validate Rekor Package
             maxTotalSeconds: 300
