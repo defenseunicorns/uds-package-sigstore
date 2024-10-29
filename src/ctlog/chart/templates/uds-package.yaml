@@ -23,18 +23,18 @@ spec:
         remoteNamespace: trillian-system
         remoteSelector:
           app.kubernetes.io/component: log-server
-      
+
       # allow ctlog to talk to the fulcio log server
       - direction: Egress
         remoteNamespace: fulcio-system
         remoteSelector:
           app.kubernetes.io/name: fulcio
         port: 5555
-      
+
       # allow fulcio to talk to ctlog
       - direction: Ingress
         remoteNamespace: fulcio-system
-        remoteselector:
+        remoteSelector:
           app.kubernetes.io/name: fulcio
 
       # Custom rules to allow clients to connect

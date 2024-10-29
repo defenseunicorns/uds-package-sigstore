@@ -10,15 +10,15 @@ initContainerImage:
 
 redis:
   image:
-    registry: docker.io
-    repository: valkey/valkey
-    version: 8.0.1-alpine
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/valkey-fips
+    version: "8.0.1"
 
 server:
   image:
-    registry: gcr.io
-    repository: projectsigstore/rekor-server
-    version: v1.3.6
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/rekor-server-fips
+    version: "1.3.6"
 
 createtree:
   image:

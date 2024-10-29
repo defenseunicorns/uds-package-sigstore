@@ -26,3 +26,16 @@ components:
           - ./values/upstream-values.yaml
     images:
       - gcr.io/projectsigstore/fulcio:v1.6.5
+
+  - name: fulcio
+    required: true
+    only:
+      flavor: unicorn
+    import:
+      path: common
+    charts:
+      - name: fulcio
+        valuesFiles:
+          - ./values/unicorn-values.yaml
+    images:
+      - cgr.dev/du-uds-defenseunicorns/fulcio-fips:1.6.5

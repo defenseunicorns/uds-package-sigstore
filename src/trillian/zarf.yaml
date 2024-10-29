@@ -23,3 +23,19 @@ components:
       - gcr.io/trillian-opensource-ci/db_server:v1.5.3
       - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.1
       - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.1
+
+  - name: trillian
+    required: true
+    only:
+      flavor: unicorn
+    import:
+      path: common
+    charts:
+      - name: trillian
+        valuesFiles:
+          - ./values/unicorn-values.yaml
+    images:
+      - cgr.dev/chainguard/netcat:latest
+      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
+      - cgr.dev/du-uds-defenseunicorns/trillian-logserver-fips:1.6.1
+      - cgr.dev/du-uds-defenseunicorns/trillian-logsigner-fips:1.6.1

@@ -26,3 +26,16 @@ components:
           - ./values/upstream-values.yaml
     images:
       - ghcr.io/sigstore/timestamp-server:v1.2.3
+
+  - name: tsa
+    required: true
+    only:
+      flavor: unicorn
+    import:
+      path: common
+    charts:
+      - name: tsa
+        valuesFiles:
+          - ./values/unicorn-values.yaml
+    images:
+      - cgr.dev/du-uds-defenseunicorns/timestamp-authority-server:1.2.3

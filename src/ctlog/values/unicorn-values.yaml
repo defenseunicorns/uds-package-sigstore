@@ -1,0 +1,27 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+server:
+  image:
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/ctlog-trillian-ctserver-fips
+    version: "1.2.1"
+
+createtree:
+  image:
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/sigstore-scaffolding-trillian-createtree-fips
+    version: "0.7.13"
+
+createctconfig:
+  initContainerImage:
+    curl:
+      registry: docker.io
+      repository: curlimages/curl
+      # renovate: datasource=docker depName=curlimages/curl versioning=semver
+      version: "8.10.1"
+
+  image:
+    registry: cgr.dev
+    repository: du-uds-defenseunicorns/sigstore-scaffolding-ctlog-createctconfig-fips
+    version: "0.7.11"
