@@ -46,6 +46,8 @@ jobs:
       - name: test-flavor
         uses: defenseunicorns/uds-common/.github/actions/test-flavor@d59b1c601730bfa7ab76439643242358e529603e # v1.2.2
         id: test-flavor
+        with:
+          check-flavor-zarf-yaml: src/ctlog/zarf.yaml
     outputs:
       upgrade-flavors: ${{ steps.test-flavor.outputs.upgrade-flavors }}
 
