@@ -13,6 +13,8 @@
 
 This package is designed for use as part of a [UDS Software Factory](https://github.com/defenseunicorns/uds-software-factory) bundle deployed on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
+> Sigstore is a set of open-source tools and services that simplify the process of signing and verifying software artifacts, enhancing software supply chain security by ensuring the authenticity and integrity of software packages.
+
 ## Prerequisites
 
 This package requires a Kubernetes Cluster providing a Storage Class that has [UDS Core](https://github.com/defenseunicorns/uds-core) installed into it along with the appropriate certificates for Sigstore's components.  You can learn more about configuring this package in the [configuration documentation](./docs/configuration.md)
