@@ -20,7 +20,7 @@ components:
           - ./values/upstream-values.yaml
     images:
       - cgr.dev/chainguard/netcat:latest
-      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
+      - gcr.io/trillian-opensource-ci/db_server:v1.7.0
       - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.1
       - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.1
 
@@ -36,6 +36,6 @@ components:
           - ./values/unicorn-values.yaml
     images:
       - cgr.dev/chainguard/netcat:latest
-      - gcr.io/trillian-opensource-ci/db_server:v1.5.3
-      - cgr.dev/du-uds-defenseunicorns/trillian-logserver-fips:1.6.1
-      - cgr.dev/du-uds-defenseunicorns/trillian-logsigner-fips:1.6.1
+      - gcr.io/trillian-opensource-ci/db_server:v1.7.0
+      - cgr.dev/du-uds-defenseunicorns/trillian-logserver-fips:1.7.0
+      - cgr.dev/du-uds-defenseunicorns/trillian-logsigner-fips:1.7.0
