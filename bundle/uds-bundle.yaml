@@ -37,7 +37,7 @@ packages:
       rekor:
         uds-rekor-config:
           values:
-            - path: custom
+            - path: additionalNetworkAllow
               value:
                 - direction: Egress
                   remoteNamespace: istio-tenant-gateway
@@ -66,7 +66,7 @@ packages:
       tsa:
         uds-tsa-config:
           values:
-            - path: custom
+            - path: additionalNetworkAllow
               value:
                 - direction: Egress
                   remoteNamespace: istio-tenant-gateway
