@@ -3,7 +3,7 @@
 
 initContainerImage:
   netcat:
-    registry: cgr.dev
+    registry: docker.io
     repository: chainguard/netcat
     version: latest
 
