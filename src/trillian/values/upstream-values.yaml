@@ -4,8 +4,8 @@
 initContainerImage:
   netcat:
     registry: docker.io
-    repository: subfuzion/netcat
-    version: "2024-09-03"
+    repository: busybox
+    version: "1.36.1"
 
 mysql:
   image:

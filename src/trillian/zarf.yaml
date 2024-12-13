@@ -19,7 +19,7 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - docker.io/subfuzion/netcat:2024-09-03
+      - docker.io/busybox:1.36.1
       - gcr.io/trillian-opensource-ci/db_server:v1.5.3
       - ghcr.io/sigstore/scaffolding/trillian_log_server:v1.6.1
       - ghcr.io/sigstore/scaffolding/trillian_log_signer:v1.6.1
