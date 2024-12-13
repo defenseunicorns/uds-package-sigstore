@@ -4,8 +4,8 @@
 initContainerImage:
   netcat:
     registry: docker.io
-    repository: chainguard/netcat
-    version: latest
+    repository: subfuzion/netcat
+    version: "2024-09-03"
 
 mysql:
   image:
