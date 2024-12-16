@@ -6,7 +6,7 @@ metadata:
   name: sigstore-test
   description: A UDS bundle for deploying Sigstore on a development cluster
   # x-release-please-start-version
-  version: 0.1.0-alpha.2
+  version: 0.1.0-alpha.3
   # x-release-please-end
 
 packages:
@@ -17,7 +17,7 @@ packages:
   - name: sigstore
     path: ../
     # x-release-please-start-version
-    ref: 0.1.0-alpha.2
+    ref: 0.1.0-alpha.3
     # x-release-please-end
     overrides:
       ctlog:
