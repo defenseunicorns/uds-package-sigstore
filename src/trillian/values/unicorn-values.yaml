@@ -4,8 +4,8 @@
 initContainerImage:
   netcat:
     registry: cgr.dev
-    repository: chainguard/netcat
-    version: latest
+    repository: du-uds-defenseunicorns/netcat
+    version: "1.226"
 
 mysql:
   image:

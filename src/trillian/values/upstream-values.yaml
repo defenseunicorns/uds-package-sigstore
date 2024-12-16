@@ -3,9 +3,9 @@
 
 initContainerImage:
   netcat:
-    registry: cgr.dev
-    repository: chainguard/netcat
-    version: latest
+    registry: docker.io
+    repository: busybox
+    version: "1.36.1"
 
 mysql:
   image:
