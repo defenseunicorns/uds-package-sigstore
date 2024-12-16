@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.0-alpha.3](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha.2...v0.1.0-alpha.3) (2024-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* update custom network properties key ([#43](https://github.com/defenseunicorns/uds-package-sigstore/issues/43))
+
+### Miscellaneous
+
+* **deps:** update sigstore support dependencies ([#36](https://github.com/defenseunicorns/uds-package-sigstore/issues/36)) ([b744ea7](https://github.com/defenseunicorns/uds-package-sigstore/commit/b744ea7f8b92cfdb960d662d16627429dbc7a3a2))
+* exclude architecture from unicorn until it can be made more pure ([#35](https://github.com/defenseunicorns/uds-package-sigstore/issues/35)) ([63c853a](https://github.com/defenseunicorns/uds-package-sigstore/commit/63c853a395d09b23d4cb724043f0ba0074b93a2b))
+* update custom network properties key ([#43](https://github.com/defenseunicorns/uds-package-sigstore/issues/43)) ([6cacff5](https://github.com/defenseunicorns/uds-package-sigstore/commit/6cacff5fb1d0b0e301d6759b0e94a2a893ea0a08))
+
 ## [0.1.0-alpha.2](https://github.com/defenseunicorns/uds-package-sigstore/compare/v0.1.0-alpha.1...v0.1.0-alpha.2) (2024-10-29)
 
 
