@@ -16,3 +16,5 @@ tmp/
 
 **node_modules
 .playwright
+
+oscal-assessment-results.yaml
