@@ -6,9 +6,7 @@ metadata:
   name: sigstore
   description: "A deployment of the primary components in the Sigstore stack"
   url: https://github.com/sigstore/helm-charts
-  # x-release-please-start-version
-  version: "0.1.0-alpha.2"
-  # x-release-please-end
+  version: "dev"
 
 components:
   - name: trillian
