@@ -39,7 +39,7 @@ tasks:
       - cmd: sleep 1 && tail -n 1 device-code.tmp.txt
         dir: tests
       - cmd: |
-          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE="$(tail -n 1 device-code.tmp.txt)" mcr.microsoft.com/playwright:v1.49.1-jammy sh -c " \
+          docker run --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app -e DEVICE_CODE="$(tail -n 1 device-code.tmp.txt)" mcr.microsoft.com/playwright:v1.50.0-jammy sh -c " \
             cd app && \
             npm ci && \
             npx playwright test \
