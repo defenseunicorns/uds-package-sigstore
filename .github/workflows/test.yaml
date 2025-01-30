@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: test-flavor
-        uses: defenseunicorns/uds-common/.github/actions/test-flavor@a94be6798ba20e2d23fe16afc6578e442e55fb0a # v1.5.1
+        uses: defenseunicorns/uds-common/.github/actions/test-flavor@f922776396f05f743055f2751fe19ec0160968ae # v1.7.3
         id: test-flavor
         with:
           check-flavor-zarf-yaml: src/ctlog/zarf.yaml
@@ -57,7 +57,7 @@ jobs:
       matrix:
         type: [install, upgrade]
         flavor: [upstream, unicorn]
-    uses: defenseunicorns/uds-common/.github/workflows/callable-test.yaml@a94be6798ba20e2d23fe16afc6578e442e55fb0a # v1.5.1
+    uses: defenseunicorns/uds-common/.github/workflows/callable-test.yaml@f922776396f05f743055f2751fe19ec0160968ae # v1.7.3
     with:
       upgrade-flavors: ${{ needs.check-flavor.outputs.upgrade-flavors }}
       flavor: ${{ matrix.flavor }}
