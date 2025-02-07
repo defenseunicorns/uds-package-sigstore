@@ -7,6 +7,11 @@ metadata:
   description: "A deployment of the primary components in the Sigstore stack"
   url: https://github.com/sigstore/helm-charts
   version: "dev"
+  annotations:
+    title: Sigstore
+    description: Sigstore contains a suite of services to provide keyless code artifact signing and attestations for software supply chain security. These include a Web PKI provider (Fulcio), Certificate Transparency Log (CTLog), Signature Transparency Log (Rekor), a Merkle tree data store (Trillian), a Timestamp Authority and a TUF trust root.
+    categories: Security,IT Management,Software Dev
+    keywords: Code Signing,Software Supply Chain,Keyless Signing,Security,Open Source
 
 components:
   - name: trillian
