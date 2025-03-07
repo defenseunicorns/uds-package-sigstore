@@ -11,16 +11,16 @@ mysql:
   image:
     registry: gcr.io
     repository: trillian-opensource-ci/db_server
-    version: v1.5.3
+    version: v1.7.1
 
 logServer:
   image:
     registry: cgr.dev
     repository: du-uds-defenseunicorns/trillian-logserver-fips
-    version: "1.6.1"
+    version: "1.7.1"
 
 logSigner:
   image:
     registry: cgr.dev
     repository: du-uds-defenseunicorns/trillian-logsigner-fips
-    version: "1.6.1"
+    version: "1.7.1"
