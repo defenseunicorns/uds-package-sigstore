@@ -67,7 +67,7 @@ tasks:
           sudo install -m 0755 cosign /usr/local/bin/cosign
 
           # renovate: datasource=github-tags depName=smallstep/cli versioning=semver
-          STEP_VERSION="0.28.5"
+          STEP_VERSION="0.28.6"
           curl -L "https://github.com/smallstep/cli/releases/download/v${STEP_VERSION}/step-cli_${STEP_VERSION}-1_${UDS_ARCH}.deb" -o step-cli.deb
           sudo dpkg -i step-cli.deb
 
