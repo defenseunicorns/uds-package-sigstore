@@ -7,7 +7,7 @@ on:
   # This workflow is triggered on pull requests to the main branch.
   pull_request:
     paths:
-      - zarf.yaml
+      - '**/zarf.yaml'
       - releaser.yaml
       - .release-please-manifest.json
 
