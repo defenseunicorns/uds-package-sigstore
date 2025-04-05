@@ -5,4 +5,4 @@ server:
   image:
     registry: cgr.dev
     repository: du-uds-defenseunicorns/timestamp-authority-server
-    version: "1.2.3"
+    version: "1.2.5"

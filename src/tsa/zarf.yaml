@@ -25,7 +25,7 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - ghcr.io/sigstore/timestamp-server:v1.2.3
+      - ghcr.io/sigstore/timestamp-server:v1.2.5
 
   - name: tsa
     required: true
@@ -38,4 +38,4 @@ components:
         valuesFiles:
           - ./values/unicorn-values.yaml
     images:
-      - cgr.dev/du-uds-defenseunicorns/timestamp-authority-server:1.2.3
+      - cgr.dev/du-uds-defenseunicorns/timestamp-authority-server:1.2.5
