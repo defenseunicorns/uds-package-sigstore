@@ -5,4 +5,4 @@ deployment:
   registry: ghcr.io
   repository: sigstore/scaffolding/server
   # renovate: datasource=docker depName=ghcr.io/sigstore/scaffolding/server versioning=semver
-  version: v0.7.13
+  version: v0.7.22

@@ -23,7 +23,7 @@ components:
         version: 0.1.0
         localPath: chart
       - name: openbao
-        version: 0.6.0
+        version: 0.10.1
         namespace: dev-openbao
         url: https://openbao.github.io/openbao-helm
         valuesFiles:
@@ -157,4 +157,4 @@ components:
               rm src/certs/tsa-wrapped.key.der
               rm src/certs/rekor-wrapped.key.der
     images:
-      - docker.io/openbao/openbao:2.0.2
+      - docker.io/openbao/openbao:2.2.0

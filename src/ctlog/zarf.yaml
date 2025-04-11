@@ -29,10 +29,10 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - docker.io/curlimages/curl:8.10.1
-      - ghcr.io/sigstore/scaffolding/createctconfig:v0.7.13
-      - ghcr.io/sigstore/scaffolding/createtree:v0.7.13
-      - ghcr.io/sigstore/scaffolding/ct_server:v0.7.13
+      - docker.io/curlimages/curl:8.13.0
+      - ghcr.io/sigstore/scaffolding/createctconfig:v0.7.22
+      - ghcr.io/sigstore/scaffolding/createtree:v0.7.22
+      - ghcr.io/sigstore/scaffolding/ct_server:v0.7.22
 
   - name: ctlog
     required: true
@@ -45,7 +45,7 @@ components:
         valuesFiles:
           - ./values/unicorn-values.yaml
     images:
-      - docker.io/curlimages/curl:8.10.1
+      - docker.io/curlimages/curl:8.13.0
       - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-ctlog-createctconfig-fips:0.7.11
-      - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-trillian-createtree-fips:0.7.13
+      - cgr.dev/du-uds-defenseunicorns/sigstore-scaffolding-trillian-createtree-fips:0.7.22
       - cgr.dev/du-uds-defenseunicorns/ctlog-trillian-ctserver-fips:1.2.1

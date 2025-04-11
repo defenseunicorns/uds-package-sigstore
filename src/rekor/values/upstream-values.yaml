@@ -6,22 +6,22 @@ initContainerImage:
     registry: docker.io
     repository: curlimages/curl
     # renovate: datasource=docker depName=curlimages/curl versioning=semver
-    version: "8.10.1"
+    version: "8.13.0"
 
 redis:
   image:
     registry: docker.io
     repository: valkey/valkey
-    version: 8.0.1-alpine
+    version: 8.1.0-alpine
 
 server:
   image:
     registry: gcr.io
     repository: projectsigstore/rekor-server
-    version: v1.3.6
+    version: v1.3.10
 
 createtree:
   image:
     registry: ghcr.io
     repository: sigstore/scaffolding/createtree
-    version: v0.7.13
+    version: v0.7.22
