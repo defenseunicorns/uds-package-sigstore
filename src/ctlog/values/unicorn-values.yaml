@@ -11,7 +11,7 @@ createtree:
   image:
     registry: cgr.dev
     repository: du-uds-defenseunicorns/sigstore-scaffolding-trillian-createtree-fips
-    version: "0.7.13"
+    version: "0.7.22"
 
 createctconfig:
   initContainerImage:
@@ -19,7 +19,7 @@ createctconfig:
       registry: docker.io
       repository: curlimages/curl
       # renovate: datasource=docker depName=curlimages/curl versioning=semver
-      version: "8.10.1"
+      version: "8.13.0"
 
   image:
     registry: cgr.dev

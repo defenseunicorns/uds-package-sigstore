@@ -38,7 +38,7 @@ components:
         valuesFiles:
           - ./values/upstream-values.yaml
     images:
-      - ghcr.io/sigstore/scaffolding/server:v0.7.13
+      - ghcr.io/sigstore/scaffolding/server:v0.7.22
 
   - name: tuf
     required: true
@@ -51,4 +51,4 @@ components:
         valuesFiles:
           - ./values/unicorn-values.yaml
     images:
-      - ghcr.io/sigstore/scaffolding/server:v0.7.13
+      - ghcr.io/sigstore/scaffolding/server:v0.7.22

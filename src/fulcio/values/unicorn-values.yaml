@@ -5,4 +5,4 @@ server:
   image:
     registry: cgr.dev
     repository: du-uds-defenseunicorns/fulcio-fips
-    version: "1.6.5"
+    version: "1.6.6"
